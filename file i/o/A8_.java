@@ -149,35 +149,38 @@ public class A8_ {
 	}
 	public static double average(double[] theArray) {
 		double value = 0.0; 
-		for (int i = 1; i < theArray.length; i++) {
+		for (int i = 0; i < theArray.length; i++) {
 			value+=theArray[i];
 		}
 		return value/theArray.length;
 	}
 	public static double studentToMark(String[] a1, double[] a2, String name) {
 		double value = 0.0; 
-		for (int i = 1; i < a1.length; i++) {
-			if (a1[i] == name){
+		for (int i = 0; i < a1.length; i++) {
+			if (a1[i].equals(name)){
 				value = a2[i];
 			}
-			else{
-				System.out.println("This student doesn't exist in this file!");
-			}
+		}
+		if (value == 0.0){
+			System.out.println("This student is not on file! Defaulted to 0%");
 		}
 		return value;
 	}
 	public static String markToStudent(String[] a1, double[] a2, double mark) {
-		String name = ""; 
-		for (int i = 1; i < a2.length; i++) {
+		String name = null; 
+		for (int i = 0; i < a2.length; i++) {
 			if (a2[i] == mark){
 				name = a1[i];
 			}
 		}
+		if (name == null){
+			System.out.println("This mark doesn'r belong to any student!");
+		}
 		return name;
 	}
 	public static double[] bellCurve(double[] a, double input) {
-		for (int i = 1; i < a.length; i++) {
-			a[i]+= a[i]*(input/100);
+		for (int i = 0; i < a.length; i++) {
+			a[i]+= 1 + input/100;
 		}
 		return a;
 	}
