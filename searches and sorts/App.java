@@ -208,7 +208,7 @@ public static long selectionSortTimeDES(int[] data){
 }
 
 	public static void main(String[] args) {
-		int SizeOfArray = 100000;// CHANGE To 100000
+		int SizeOfArray = 50;// CHANGE To 100000
 		int[] A1 = new int[SizeOfArray];// bubble sort 1
 		int[] A2 = new int[SizeOfArray];// bubble sort 2
 		int[] A3 = new int[SizeOfArray];// bubble sort 3
@@ -274,7 +274,7 @@ public static long selectionSortTimeDES(int[] data){
 
         //Report 
         System.out.println("\n********************REPORT********************");
-        System.out.println("When sorting, an Insertion sort is usually best, as it becomes more efficient in comparison to other sorts as the size of the data set increases. Selection sort was the second fastest sort for sorting a completely random data set, \nyet when only one element was out of place, it was extremely inefficient. The Bubble sort took the longest for sorting a \nrandom data set that had yet to be sorted but was much more efficient than....");
+        System.out.println("When sorting, an Insertion sort is usually best, as it becomes more efficient \nin comparison to other sorts as the size of the data set increases. Selection \nsort was the second fastest sort for sorting a completely random data set, \nyet when only one element was out of place, it was extremely inefficient. The \nBubble sort took the longest for sorting a random data set that had yet to be \nsorted but was much more efficient than....");
 	}
 
 }
