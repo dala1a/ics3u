@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.io.*; // Contains commands to read in a file
+import java.text.DecimalFormat;
 
 public class A8_ {
 
@@ -173,8 +174,8 @@ public class A8_ {
 				name = a1[i];
 			}
 		}
-		if (name == null){
-			System.out.println("This mark doesn'r belong to any student!");
+		if (name.equals(null)){
+			System.out.println("This mark doesn't belong to any student!");
 		}
 		return name;
 	}
@@ -197,7 +198,7 @@ public class A8_ {
 		int choice3=0;//User's choice in bell curve menu
 		names = readIn(fname, names);
 		marks = readInMark(fname, marks);
-
+		DecimalFormat x = new DecimalFormat("0.00");
 		do {
 			System.out.println("\nMenu \n1. View student marks \n2. View highest mark \n3. View lowest mark \n4. View class average \n5. Search (Student or Mark) \n6. Bell Curve \n7.Exit \nType in number of choice!");
 			choice = Integer.parseInt(userinput.nextLine().trim());
@@ -216,7 +217,7 @@ public class A8_ {
 				break;
 			case 4://View class average
 				System.out.println("\nClass Average: ");
-				System.out.println(average(marks) + "%");
+				System.out.println(x.format(average(marks)) + "%");
 				break;
 			case 5://Search (Student or Mark)
 				do {
@@ -280,8 +281,8 @@ public class A8_ {
 		} while (choice != 7);
 
 		System.out.println("Please enter a filename to write?");
-		// String fname2 = userinput.nextLine();
-		// writeOut(fname2, ArrayOfFile);
+		String fname2 = userinput.nextLine();
+		//writeOut(fname2, ArrayOfFile);
 
 		userinput.close();
 	}// end of main
