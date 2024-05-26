@@ -1,5 +1,5 @@
 import java.io.*; // Contains commands to read in a file
-import java.text.DecimalFormat;
+//import java.text.DecimalFormat;
 import java.util.Scanner;
 public class wahoo {
     public static int CheckSize(String filename) {
@@ -37,7 +37,7 @@ it was not found in the array
 	}
     public static int[][] randomFill2DArray(int[][] array) {
 		for (int r = 0; r < array.length; r++) {
-            for (int c = 0; c< array.length; c++)
+            for (int c = 0; c< array[r].length; c++)
 			array[r][c] = randomNumber(1, 100);
 		}
 		return array;

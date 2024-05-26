@@ -281,7 +281,7 @@ public class A8_ {
 		} while (choice != 7);
 
 		System.out.println("Please enter a filename to write?");
-		String fname2 = userinput.nextLine();
+		//String fname2 = userinput.nextLine();
 		//writeOut(fname2, ArrayOfFile);
 
 		userinput.close();
