@@ -51,7 +51,7 @@ public class A8_ {
 														// pointer
 				dataItem = FileInputPointer.readLine(); // name
 
-				//System.out.println("Item read in:" + dataItem);
+				// System.out.println("Item read in:" + dataItem);
 				namesAndMarks[i] = dataItem;
 				i++;
 			}
@@ -73,7 +73,8 @@ public class A8_ {
 				Holder = FileInputPointer.readLine().toString(); // double mark number
 				mark[i] = Double.parseDouble(Holder);
 				i += 1;
-				Holder = FileInputPointer.readLine().toString(); // Student name filter it out just advance the file pointer
+				Holder = FileInputPointer.readLine().toString(); // Student name filter it out just advance the file
+																	// pointer
 			}
 			FileInputPointer.close();
 		} catch (FileNotFoundException e) {
@@ -124,11 +125,19 @@ public class A8_ {
 		}
 	}
 
+	public static String[] rearrange(double[] grades, String[] names){
+		String[] newArray = new String[grades.length*2];
+		for (int i = 0; i < grades.length; i++){
+			newArray[i] = String.valueOf(grades[i]); //found on stack overflow
+			newArray[i+1] = names[i];
+		}
+		return newArray;
+	}
 	public static double highestMark(String[] array, double[] thearray) {
-		double value = 0.0; 
+		double value = 0.0;
 		String name = "";
 		for (int i = 1; i < thearray.length; i++) {
-			if (thearray[i] > thearray[i-1]) {
+			if (thearray[i] > thearray[i - 1]) {
 				value = thearray[i];
 				name = array[i];
 			}
@@ -136,11 +145,12 @@ public class A8_ {
 		System.out.println(name);
 		return value;
 	}
+
 	public static double lowestMark(String[] array, double[] thearray) {
-		double value = 0.0; 
+		double value = 0.0;
 		String name = "";
 		for (int i = 1; i < thearray.length; i++) {
-			if (thearray[i] < thearray[i-1]) {
+			if (thearray[i] < thearray[i - 1]) {
 				value = thearray[i];
 				name = array[i];
 			}
@@ -148,43 +158,51 @@ public class A8_ {
 		System.out.println(name);
 		return value;
 	}
+
 	public static double average(double[] theArray) {
-		double value = 0.0; 
+		double value = 0.0;
 		for (int i = 0; i < theArray.length; i++) {
-			value+=theArray[i];
+			value += theArray[i];
 		}
-		return value/theArray.length;
+		return value / theArray.length;
 	}
+
 	public static double studentToMark(String[] a1, double[] a2, String name) {
-		double value = 0.0; 
+		double value = 0.0;
 		for (int i = 0; i < a1.length; i++) {
-			if (a1[i].equals(name)){
+			if (a1[i].equals(name)) {
 				value = a2[i];
 			}
 		}
-		if (value == 0.0){
+		if (value == 0.0) {
 			System.out.println("This student is not on file! Defaulted to 0%");
 		}
 		return value;
 	}
+
 	public static String markToStudent(String[] a1, double[] a2, double mark) {
-		String name = null; 
+		String name = null;
 		for (int i = 0; i < a2.length; i++) {
-			if (a2[i] == mark){
+			if (a2[i] == mark) {
 				name = a1[i];
 			}
 		}
-		if (name.equals(null)){
+		if (name.equals(null)) {
 			System.out.println("This mark doesn't belong to any student!");
 		}
 		return name;
 	}
+
 	public static double[] bellCurve(double[] a, double input) {
 		for (int i = 0; i < a.length; i++) {
-			a[i]+= 1 + input/100;
+			a[i] += 1 + input / 100;
+			if (a[i] < 100){
+				a[i] = 100;
+			}
 		}
 		return a;
 	}
+
 	public static void main(String[] args) {
 		Scanner userinput = new Scanner(System.in);
 		System.out.println("Please enter a filename to read?");
@@ -194,95 +212,98 @@ public class A8_ {
 		double[] marks = new double[SizeOfArray / 2];
 		String[] names = new String[SizeOfArray / 2];
 		int choice = 0; // User's choice in menu
-		int choice2=0; //User's choice in Search (Student or Mark) menu
-		int choice3=0;//User's choice in bell curve menu
+		int choice2 = 0; // User's choice in Search (Student or Mark) menu
+		int choice3 = 0;// User's choice in bell curve menu
 		names = readIn(fname, names);
 		marks = readInMark(fname, marks);
+		
 		DecimalFormat x = new DecimalFormat("0.00");
 		do {
-			System.out.println("\nMenu \n1. View student marks \n2. View highest mark \n3. View lowest mark \n4. View class average \n5. Search (Student or Mark) \n6. Bell Curve \n7.Exit \nType in number of choice!");
-			choice = Integer.parseInt(userinput.nextLine().trim());
+			System.out.println(
+					"\nMenu \n1. View student marks \n2. View highest mark \n3. View lowest mark \n4. View class average \n5. Search (Student or Mark) \n6. Bell Curve \n7.Exit \nType in number of choice!");
+		
+					choice = Integer.parseInt(userinput.nextLine().trim());
 
 			switch (choice) {
-			case 1:
-				printOut(marks, names);
-				break;
-			case 2:
-				System.out.println("\nStudent with the highest mark: ");
-				System.out.println(highestMark(names,marks) + "%");
-				break;
-			case 3://View lowest mark
-				System.out.println("\nStudent with the lowest mark: ");
-				System.out.println(lowestMark(names,marks) + "%");
-				break;
-			case 4://View class average
-				System.out.println("\nClass Average: ");
-				System.out.println(x.format(average(marks)) + "%");
-				break;
-			case 5://Search (Student or Mark)
-				do {
-					System.out.println("\nSubmenu \n1. Search Student \n2. Search Mark \n3. Exit \nType in number of choice!");
-					choice2 = Integer.parseInt(userinput.nextLine().trim());
-					switch (choice2) {
-						case 1://search student
-						String name = userinput.nextLine();
-						System.out.println(name + " has a mark of " + studentToMark(names,marks,name) + "%");
-						break;
-						case 2://search student
-						double mark = Double.parseDouble(userinput.nextLine().trim());
-						System.out.println(markToStudent(names,marks,mark) + " has a mark of " + mark + "%");
-						break;
-						case 3://exit
-						System.out.println("Exited!");
-						break;
-						default:
-						System.out.println("Choose a valid option!");
-					}
-				}while(choice2 != 3);
-			case 6://Bell Curve
-			do {
-				System.out.println("\nSubmenu \n1. Enter value to change the averages by \n2. Search Mark \n3. Exit \nType in number of choice!");
-				choice3 = Integer.parseInt(userinput.nextLine().trim());
-				switch (choice3) {
-					case 1://enter increase or decrease number
-					System.out.println("Enter amount to change averages by: ");
-					double percent = Double.parseDouble(userinput.nextLine());
-					System.out.println("Would you like to save new grades or just view? (Save or View)");
-					String answer = userinput.nextLine().toLowerCase().trim();
-					if (answer == "save"){
-						marks = bellCurve(marks,percent);
-						printOut(marks,names);
-						System.out.println("New Average: " + average(marks) + "%");
-					}
-					else{
-						printOut(bellCurve(marks,percent),names);
-						printOut(marks,names);
-					}
-					
+				case 1:
+					printOut(marks, names);
 					break;
-					case 2://search student
-					double mark = Double.parseDouble(userinput.nextLine().trim());
-					System.out.println(markToStudent(names,marks,mark) + " has a mark of " + mark + "%");
+				case 2:
+					System.out.println("\nStudent with the highest mark: ");
+					System.out.println(highestMark(names, marks) + "%");
 					break;
-					case 3://exit
+				case 3:// View lowest mark
+					System.out.println("\nStudent with the lowest mark: ");
+					System.out.println(lowestMark(names, marks) + "%");
+					break;
+				case 4:// View class average
+					System.out.println("\nClass Average: ");
+					System.out.println(x.format(average(marks)) + "%");
+					break;
+				case 5:// Search (Student or Mark)
+					do {
+						System.out.println(
+								"\nSubmenu \n1. Search Student \n2. Search Mark \n3. Exit \nType in number of choice!");
+						choice2 = Integer.parseInt(userinput.nextLine().trim());
+						switch (choice2) {
+							case 1:// search student
+								String name = userinput.nextLine();
+								System.out.println(name + " has a mark of " + studentToMark(names, marks, name) + "%");
+								break;
+							case 2:// search student
+								double mark = Double.parseDouble(userinput.nextLine().trim());
+								System.out.println(markToStudent(names, marks, mark) + " has a mark of " + mark + "%");
+								break;
+							case 3:// exit
+								System.out.println("Exited!");
+								break;
+							default:
+								System.out.println("Choose a valid option!");
+						}
+					} while (choice2 != 3);
+					break;
+				case 6:// Bell Curve
+					do {
+						System.out.println(
+								"\nSubmenu \n1. Enter value to change the averages by (positive) \n2. Enter value to change the averages by (negative) \n3. Search Mark \n4. Exit \nType in number of choice!");
+						choice3 = Integer.parseInt(userinput.nextLine().trim());
+						switch (choice3) {
+							case 1:// enter increase number
+								System.out.println("Enter amount to change averages by: ");
+								double percent = Double.parseDouble(userinput.nextLine());
+								System.out.println("Would you like to save new grades or just view? (Save or View)");
+								String answer = userinput.nextLine().toLowerCase().trim();
+								if (answer == "save") {
+									marks = bellCurve(marks, percent);
+									printOut(marks, names);
+									System.out.println("New Average: " + average(marks) + "%");
+								} else {
+									printOut(bellCurve(marks, percent), names);
+									printOut(marks, names);
+								}
+
+								break;
+							case 2:// enter decrease number
+							case 3:// search student
+								double mark = Double.parseDouble(userinput.nextLine().trim());
+								System.out.println(markToStudent(names, marks, mark) + " has a mark of " + mark + "%");
+								break;
+							case 4:// exit
+								System.out.println("Exited!");
+								break;
+							default:
+								System.out.println("Choose a valid option!");
+						}
+					} while (choice2 != 3);
+					break;
+				case 7:// Exit
 					System.out.println("Exited!");
 					break;
-					default:
-					System.out.println("Choose a valid option!");
-				}
-			}while(choice2 != 3);
-			case 7://Exit
-				System.out.println("Exited!");
-				break;
-			default:
-				System.out.println("Choose a valid choice!");
-				break;
+				default:
+					System.out.println("Choose a valid choice!");
+					break;
 			}
 		} while (choice != 7);
-
-		System.out.println("Please enter a filename to write?");
-		//String fname2 = userinput.nextLine();
-		//writeOut(fname2, ArrayOfFile);
 
 		userinput.close();
 	}// end of main
