@@ -16,6 +16,7 @@ public class App {
 	 * Method Name: randomFillArray Author: Yunseo Jeon Creation Date; April 23,
 	 * 2024 Description: fills array with random values
 	 * yeehaw
+	 * 
 	 * @Parameters: list
 	 * 
 	 * @Return Value: array Data Type: array Dependencies: n/a Throws/Exceptions:
@@ -37,14 +38,16 @@ public class App {
 	}
 
 	/*
-	 * Method Name: printArray 
-     * Author: Yunseo Jeon 
-     * Creation Date; April 23, 2024
+	 * Method Name: printArray
+	 * Author: Yunseo Jeon
+	 * Creation Date; April 23, 2024
 	 * Description: prints values of array
+	 * 
 	 * @Parameters: list
-	 * @Return Value: array 
-     * Data Type: array Dependencies: n/a 
-     * Throws/Exceptions:
+	 * 
+	 * @Return Value: array
+	 * Data Type: array Dependencies: n/a
+	 * Throws/Exceptions:
 	 * n/a
 	 */
 	public static void printArray(int[] list, int columns) {
@@ -79,7 +82,8 @@ public class App {
 				} // end if
 		} // end while
 	}// end bubbleSort
-    public static void bubbleSortDES(int data[]) {
+
+	public static void bubbleSortDES(int data[]) {
 		int tmp;
 		int j = 0;
 		boolean sorted = false;
@@ -108,7 +112,8 @@ public class App {
 			data[i + 1] = tmp;
 		}
 	}
-    public static void insertionSortDES(int data[]) {
+
+	public static void insertionSortDES(int data[]) {
 		int tmp;
 		int i, j;
 		for (j = 0; j < data.length; j++) {
@@ -136,7 +141,7 @@ public class App {
 		} // end of for loop
 	} // end selectSort
 
-    public static void selectionSortDES(int[] intArray) {
+	public static void selectionSortDES(int[] intArray) {
 		for (int i = intArray.length - 1; i > 0; i--) {
 			int maxLoc = 0; // Location of largest item seen so far.
 			for (int j = 1; j <= i; j++) {
@@ -150,65 +155,112 @@ public class App {
 		} // end of for loop
 	} // end selectSort
 
-public static long bubbleSortTimeASC(int[] data){
-	long beforeSort, afterSort, time = 0;
+	public static long bubbleSortTimeASC(int[] data) {
+		long beforeSort, afterSort, time = 0;
 		beforeSort = getTime();
 		bubbleSortASC(data);
 		afterSort = getTime();
-		time += (afterSort - beforeSort) ;
-		System.out.print(time + " ");
+		time += (afterSort - beforeSort);
 		return time;
-}
+	}
 
-public static long bubbleSortTimeDES(int[] data){
-	long beforeSort, afterSort, time = 0;
+	public static long bubbleSortTimeDES(int[] data) {
+		long beforeSort, afterSort, time = 0;
 		beforeSort = getTime();
 		bubbleSortDES(data);
 		afterSort = getTime();
-		time += (afterSort - beforeSort) ;
-		System.out.print(time + " ");
+		time += (afterSort - beforeSort);
 		return time;
-}
+	}
 
-public static long insertionSortTimeASC(int[] data){
-	long beforeSort, afterSort, time = 0;
+	public static long insertionSortTimeASC(int[] data) {
+		long beforeSort, afterSort, time = 0;
 		beforeSort = getTime();
 		insertionSortASC(data);
 		afterSort = getTime();
 		time += (afterSort - beforeSort);
-		System.out.print(time + " ");
 		return time;
-}
-public static long insertionSortTimeDES(int[] data){
-	long beforeSort, afterSort, time = 0;
+	}
+
+	public static long insertionSortTimeDES(int[] data) {
+		long beforeSort, afterSort, time = 0;
 		beforeSort = getTime();
 		insertionSortDES(data);
 		afterSort = getTime();
 		time += (afterSort - beforeSort);
-		System.out.print(time + " ");
 		return time;
-}
-public static long selectionSortTimeASC(int[] data){
-	long beforeSort, afterSort, time = 0;
+	}
+
+	public static long selectionSortTimeASC(int[] data) {
+		long beforeSort, afterSort, time = 0;
 		beforeSort = getTime();
 		selectionSortASC(data);
 		afterSort = getTime();
-		time += (afterSort - beforeSort) ;
-		System.out.print(time + " ");
+		time += (afterSort - beforeSort);
 		return time;
-}
-public static long selectionSortTimeDES(int[] data){
-	long beforeSort, afterSort, time = 0;
+	}
+
+	public static long selectionSortTimeDES(int[] data) {
+		long beforeSort, afterSort, time = 0;
 		beforeSort = getTime();
 		selectionSortDES(data);
 		afterSort = getTime();
-		time += (afterSort - beforeSort) ;
-		System.out.print(time + " ");
+		time += (afterSort - beforeSort);
 		return time;
-}
+	}
+
+	public static int sequentialSearch(int[] array, int key) {
+		for (int i = 0; i < array.length; i++) {
+			if (array[i] == key) {
+				return i; /* the position where the element was found */
+			}
+		}
+		return -1; /* return -1 if key not found in the array */
+	}
+
+	public static int binarySearch(int[] bigarray, int key) {
+		int bottomindex = 0; // lowest index in array
+		int topindex = bigarray.length - 1; // highest index in array
+		int middleindex; // middle of bottom and top indexes
+		boolean found = false; // true if key was found
+		while ((bottomindex <= topindex) && (found == false)) {
+			middleindex = (int) (bottomindex + topindex) / 2;
+			if (bigarray[middleindex] == key) {
+				found = true;
+				return middleindex;
+			} // end if
+			else {
+				if (bigarray[middleindex] < key) {
+					bottomindex = middleindex + 1;
+				} // end if
+				else {
+					topindex = middleindex - 1;
+				} // end else
+			} // end else
+		} // end while
+		return -1;
+	} // end binarySearch
+
+	public static long sequentialSearchTime(int[] data, int num) {
+		long beforeSearch, afterSearch, time = 0;
+		beforeSearch = getTime();
+		sequentialSearch(data, num);
+		afterSearch = getTime();
+		time += (afterSearch - beforeSearch);
+		return time;
+	}
+
+	public static long binarySearchTime(int[] data, int num) {
+		long beforeSearch, afterSearch, time = 0;
+		beforeSearch = getTime();
+		binarySearch(data, num);
+		afterSearch = getTime();
+		time += (afterSearch - beforeSearch);
+		return time;
+	}
 
 	public static void main(String[] args) {
-		int SizeOfArray = 50;// CHANGE To 100000
+		int SizeOfArray = 100000;// CHANGE To 100000
 		int[] A1 = new int[SizeOfArray];// bubble sort 1
 		int[] A2 = new int[SizeOfArray];// bubble sort 2
 		int[] A3 = new int[SizeOfArray];// bubble sort 3
@@ -220,61 +272,105 @@ public static long selectionSortTimeDES(int[] data){
 		int[] C1 = new int[SizeOfArray];// selection sort 1
 		int[] C2 = new int[SizeOfArray];// selection sort 2
 		int[] C3 = new int[SizeOfArray];// selection sort 3
-	
-		randomFillArray(A1, 30000);
-		randomFillArray(A2, 30000);
-		randomFillArray(A3, 30000);
+
+		int[] searchArray = new int[SizeOfArray];
+		int key = 0;
+
+		randomFillArray(A1, SizeOfArray);
+		randomFillArray(A2, SizeOfArray);
+		randomFillArray(A3, SizeOfArray);
 
 		copyArray(A1, B1);
 		copyArray(A2, B2);
 		copyArray(A3, B3);
 
 		copyArray(A1, C1);
-		copyArray(A2, C2);   
+		copyArray(A2, C2);
 		copyArray(A3, C3);
-        
-        //Sorting random
-        System.out.println("********************RANDOM********************");
-		long bubbleTime = bubbleSortTimeASC(A1) + bubbleSortTimeASC(A2) + bubbleSortTimeASC(A3);
-		System.out.println("Average (Bubble, random): "+ bubbleTime/3);
-		long insertionTime = insertionSortTimeASC(B1) + insertionSortTimeASC(B2) + insertionSortTimeASC(B3);
-		System.out.println("Average (Insertion, random): "+ insertionTime/ 3);
-		long selectionTime = selectionSortTimeASC(C1) + selectionSortTimeASC(C2) + selectionSortTimeASC(C3);
-		System.out.println("Average (Selection, random): "+ selectionTime/3);
-        
-        //Sorting one out of place
-        A1[randomNumber(1,SizeOfArray)] = SizeOfArray+69;
-        A2[randomNumber(1,SizeOfArray)] = SizeOfArray+69;
-        A3[randomNumber(1,SizeOfArray)] = SizeOfArray+69;
-        
-        copyArray(A1, B1);
+
+		// Sorting random
+		System.out.println("********************RANDOM********************");
+		long bubbleTime = bubbleSortTimeASC(A1) + bubbleSortTimeASC(A2) +
+		bubbleSortTimeASC(A3);
+		System.out.println("Average (Bubble, random): " + bubbleTime / 3);
+		long insertionTime = insertionSortTimeASC(B1) + insertionSortTimeASC(B2) +
+		insertionSortTimeASC(B3);
+		System.out.println("Average (Insertion, random): " + insertionTime / 3);
+		long selectionTime = selectionSortTimeASC(C1) + selectionSortTimeASC(C2) +
+		selectionSortTimeASC(C3);
+		System.out.println("Average (Selection, random): " + selectionTime / 3);
+
+		// Sorting one out of place
+		A1[randomNumber(1, SizeOfArray)] = SizeOfArray + 69;
+		A2[randomNumber(1, SizeOfArray)] = SizeOfArray + 69;
+		A3[randomNumber(1, SizeOfArray)] = SizeOfArray + 69;
+
+		copyArray(A1, B1);
 		copyArray(A2, B2);
 		copyArray(A3, B3);
 
 		copyArray(A1, C1);
-		copyArray(A2, C2);   
+		copyArray(A2, C2);
 		copyArray(A3, C3);
-        System.out.println("\n********************ONE OUT OF PLACE********************");
-        bubbleTime = bubbleSortTimeASC(A1) + bubbleSortTimeASC(A2) + bubbleSortTimeASC(A3);
-		System.out.println("Average (Bubble, one out of place): "+ bubbleTime/3);
-		insertionTime = insertionSortTimeASC(B1) + insertionSortTimeASC(B2) + insertionSortTimeASC(B3);
-		System.out.println("Average (Insertion, one out of place): "+ insertionTime/ 3);
-        selectionTime = selectionSortTimeASC(C1) + selectionSortTimeASC(C2) + selectionSortTimeASC(C3);
-		System.out.println("Average (Selection, one out of place): "+ selectionTime/3);
-    
+		System.out.println("\n********************ONE OUT OF PLACE********************");
+		bubbleTime = bubbleSortTimeASC(A1) + bubbleSortTimeASC(A2) +
+		bubbleSortTimeASC(A3);
+		System.out.println("Average (Bubble, one out of place): " + bubbleTime / 3);
+		insertionTime = insertionSortTimeASC(B1) + insertionSortTimeASC(B2) +
+		insertionSortTimeASC(B3);
+		System.out.println("Average (Insertion, one out of place): " + insertionTime
+		/ 3);
+		selectionTime = selectionSortTimeASC(C1) + selectionSortTimeASC(C2) +
+		selectionSortTimeASC(C3);
+		System.out.println("Average (Selection, one out of place): " + selectionTime
+		/ 3);
 
-        //Reverse
-        System.out.println("\n********************REVERSE********************");
-        bubbleTime = bubbleSortTimeDES(A1) + bubbleSortTimeDES(A2) + bubbleSortTimeDES(A3);
-		System.out.println("Average (Bubble, Reverse): "+ bubbleTime/3);
-		insertionTime = insertionSortTimeDES(B1) + insertionSortTimeDES(B2) + insertionSortTimeDES(B3);
-		System.out.println("Average (Insertion, Reverse): "+ insertionTime/ 3);
-        selectionTime = selectionSortTimeDES(C1) + selectionSortTimeDES(C2) + selectionSortTimeDES(C3);
-		System.out.println("Average (Selection, Reverse): "+ selectionTime/3);
+		// Reverse
+		System.out.println("\n********************REVERSE********************");
+		bubbleTime = bubbleSortTimeDES(A1) + bubbleSortTimeDES(A2) +
+		bubbleSortTimeDES(A3);
+		System.out.println("Average (Bubble, Reverse): " + bubbleTime / 3);
+		insertionTime = insertionSortTimeDES(B1) + insertionSortTimeDES(B2) +
+		insertionSortTimeDES(B3);
+		System.out.println("Average (Insertion, Reverse): " + insertionTime / 3);
+		selectionTime = selectionSortTimeDES(C1) + selectionSortTimeDES(C2) +
+		selectionSortTimeDES(C3);
+		System.out.println("Average (Selection, Reverse): " + selectionTime / 3);
 
-        //Report 
-        System.out.println("\n********************REPORT********************");
-        System.out.println("When sorting, an Insertion sort is usually best, as it becomes more efficient \nin comparison to other sorts as the size of the data set increases. Selection \nsort was the second fastest sort for sorting a completely random data set, \nyet when only one element was out of place, it was extremely inefficient. The \nBubble sort took the longest for sorting a random data set that had yet to be \nsorted but was much more efficient than....");
+		// Report
+		System.out.println("\n********************REPORT********************");
+		System.out.println("When the data is randomly filled, Insertion Sort has the fastest sorting time, outperforming both Selection Sort and Bubble Sort. When only one element is out of place, Bubble Sort demonstrates superior efficiency, making it the fastest in this scenario. For data in reverse order, Insertion Sort again proves to be the most efficient, surpassing the performance of both Bubble Sort and Selection Sort. These results highlight Insertion Sort's general efficiency across various conditions, while Bubble Sort excels when minimal sorting is required.");
+
+		// Initializing Sequential Sort
+		randomFillArray(searchArray, SizeOfArray);
+		insertionSortASC(searchArray);
+
+		// Best case Sequential
+		key = searchArray[0];
+		System.out.println("\n********************BEST CASE********************");
+		System.out.println("Sequential: " + sequentialSearchTime(searchArray, key));
+
+		// Best case Binary
+		key = searchArray[(searchArray.length - 1) / 2];
+		System.out.println("Binary: " + binarySearchTime(searchArray, key));
+
+		// Worst case Sequential
+		key = searchArray[searchArray.length - 1] + 1;
+		System.out.println("\n********************WORST CASE********************");
+		System.out.println("Sequential: " + sequentialSearchTime(searchArray, key));
+
+		// Worst case Binary
+		System.out.println("Binary: " + binarySearchTime(searchArray, key));
+
+		// Worst case Sequential
+		key = searchArray[randomNumber(0, searchArray.length-1)];
+		System.out.println("\n********************AVERAGE CASE********************");
+		System.out.println("Sequential: " + sequentialSearchTime(searchArray, key));
+
+		// Worst case Binary
+		System.out.println("Binary: " + binarySearchTime(searchArray, key));
+
+		//Report
+		System.out.println("The data compares the performance of Sequential Search and Binary Search under different conditions. In the best case scenario, Sequential Search is slightly faster compared to Binary Search. However, in the worst case scenario, Binary Search significantly outperforms Sequential Search. For the average case, Binary Search is again much more efficient, while Sequential Search takes longer. These findings highlight Binary Search's superior efficiency, especially in the worst and average cases, while Sequential Search only has a slight advantage in the best case scenario. Since sequential search goes through all elements, which means it does a lot more comparisons than binary search. It takes more time, therefore being the worse search.");
 	}
-
 }
