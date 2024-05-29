@@ -1,6 +1,7 @@
 import java.io.*; // Contains commands to read in a file
-//import java.text.DecimalFormat;
+import java.text.DecimalFormat;
 import java.util.Scanner;
+
 public class wahoo {
     public static int CheckSize(String filename) {
 		int NumberOfItems = 0;
@@ -75,16 +76,33 @@ it was not found in the array
             System.out.println();
 		}
 	}
-
+	public static double totalPrecip(String[][] data){
+		double sum = 0;
+		for (int r = 0; r < data.length; r++){
+			for (int c = 0; c < data[r].length; c++){
+				sum += Double.parseDouble(data[r][c]);
+			}
+		}
+		return sum;
+	}
     public static void main(String[] args) {
         Scanner userinput = new Scanner(System.in);
 		System.out.println("Please enter a filename to read?");
 		String fname = userinput.nextLine();
 		int SizeOfArray = CheckSize(fname);
-		System.out.println("# of items in the file: " + SizeOfArray);
+		// System.out.println("# of items in the file: " + SizeOfArray);
         String[][] precippy = new String[SizeOfArray/5] [SizeOfArray/7];
         readIn(fname, precippy);
         printOut(precippy);
+
+		int choice = 0;
+		DecimalFormat x = new DecimalFormat("0.00");
+		do {
+			System.out.println("\nMenu \n1. View total precipitation for all areas \n2. View highest mark \n3. View lowest mark \n4. View class average \n5. Search (Student or Mark) \n6. Bell Curve \n7.Exit \nType in number of choice!");
+			choice = Integer.parseInt(userinput.nextLine().trim());
+
+			switch (choice) {
+			case 1:
 
         
         userinput.close();
