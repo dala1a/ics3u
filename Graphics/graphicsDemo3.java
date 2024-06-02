@@ -1,7 +1,7 @@
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;//Without this action listener will not work
-public class TextFields {
+public class graphicsDemo3 {
 
    public static void main(String[] args) {
        NameFrame frame = new NameFrame();
