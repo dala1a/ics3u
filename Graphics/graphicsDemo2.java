@@ -1,5 +1,5 @@
 import java.awt.*;
-//import java.awt.event.WindowAdapter;
+import java.awt.event.*;
 //import java.awt.event.WindowEvent;
 
 import javax.swing.*;
@@ -8,14 +8,14 @@ public class graphicsDemo2 {
     public static void main (String [] args){
         //Create Frame
         JFrame frame = new JFrame("Graphics");
-        /* 
+        
         frame.addWindowListener(new WindowAdapter() {
-            public void WindowClosing (WindowEvent e){
+            public void windowClosing(WindowEvent e){
                 System.exit(0); 
                     }//closes window closing
                 }//close adaptor
             ); //Close window listener 
-            */
+            
         frame.setSize(200,200);
         JPanel pane = (JPanel) frame.getContentPane();
         pane.add(new Picture(), BorderLayout.CENTER);
