@@ -45,19 +45,33 @@ public class wahoo {
 		}
 
 	}
+    /*
+	 * Method Name: randomNumber 
+	 * Author: Yunseo Jeon
+	 * Creation Date; April 15 2024 
+	 * Description: creates a random number between lower and upper LIMIT
+	 * @Parameters: int lower, upper
+	 * @Return Value: int
+	 * Data Type: int
+	 * Dependencies: n/a 
+	 * Throws/Exceptions: n/a
+	 */
     public static int randomNumber(int lower, int upper) {
         int answer = (int) ((Math.random() * (upper - lower)) + lower);
         return answer;
     }
-
-    public static int[][] randomFill2DArray(int[][] array) {
-        for (int r = 0; r < array.length; r++) {
-            for (int c = 0; c < array[r].length; c++)
-                array[r][c] = randomNumber(1, 100);
-        }
-        return array;
-    }
-
+/*
+	 * Method Name: readIn 
+	 * Author: Kyle McKay 
+	 * Creation Date; Nov 15 2023 Modified
+	 * Date: Nov 15 2023
+	 * Description: Reads line by line the integers in a file and places in an array
+	 * @Parameters: A integer array, and file name as a string
+	 * @Return Value: Returns the filled in array 
+	 * Data Type: integer ARRAY
+	 * Dependencies: n/a 
+	 * Throws/Exceptions: File IO exceptions
+	 */
     public static String[][] readIn(String filename, String[][] data) {
         String dataItem;
         try {
@@ -78,7 +92,18 @@ public class wahoo {
         }
         return data;
     }
-
+/*
+	 * Method Name: printOut 
+	 * Author: Kyle McKay 
+	 * Creation Date; Nov 15 2023
+	 * Modified Date: May 23, 2024 by Yunseo Jeon
+	 * Description: To output the String 2D array
+	 * @Parameters: String 2D array
+	 * @Return Value: None its a procedure 
+	 * Data Type: n/a
+	 * Dependencies: n/a 
+	 * Throws/Exceptions: n/a
+	 */
     public static void printOut(String[][] data) {
         for (int r = 0; r < data.length; r++) {
             for (int c = 0; c < data[r].length; c++) {
