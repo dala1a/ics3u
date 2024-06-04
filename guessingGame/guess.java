@@ -3,14 +3,11 @@
  * Creation Date: June 2, 2024
  * Description: Guessing game but in graphics. 
  */
-
- package raaa;
-
  import java.awt.*;
  import javax.swing.*;
  import java.awt.event.*;
  
- public class graphics {
+ public class guess {
  
      public static void main(String[] args) {
          Frame frame = new Frame();
