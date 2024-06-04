@@ -190,7 +190,7 @@ public class wahoo {
                 case 5: //average precipitation for user specified month
                     System.out.println("Input a month: ");
                     stringChoice = userinput.nextLine().trim();
-                    System.out.println("\n" + stringChoice + "'s average precipitation was: " + averageMonth(precippy, stringChoice));
+                    System.out.println("\n" + stringChoice + "'s average precipitation was: " + x.format(averageMonth(precippy, stringChoice)));
                     break;
                 case 6: //print out table
                     printOut(precippy);
