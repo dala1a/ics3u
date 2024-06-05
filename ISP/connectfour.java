@@ -27,10 +27,14 @@ class Frame extends JFrame implements ActionListener {
     private JButton scoreboardButton;
 
     private JLabel howToTitle;
+    private JLabel text1;
+    private JLabel text2;
+    private JLabel text3;
+    private JLabel text4;
 
     Font font1 = new Font("Display", Font.BOLD, 50);
     Font font2 = new Font("Display", Font.BOLD, 30);
-    JPanel menu; 
+    JPanel menuPanel; 
     JPanel howToPanel; 
     JPanel scoreboardPanel; 
 
@@ -63,38 +67,88 @@ class Frame extends JFrame implements ActionListener {
         scoreboardButton.addActionListener(this);
         
         // menu panel
-        menu = (JPanel) getContentPane();
-        menu.setLayout(new GridLayout(8, 1));
+        menuPanel = (JPanel) getContentPane();
+        menuPanel.setLayout(new GridLayout(8, 1));
 
         // Adding components with proper sizing
-        menu.add(new JPanel()); // spacer
-        menu.add(menuTitle);
-        menu.add(menuText);
-        menu.add(new JPanel()); // spacer
+        menuPanel.add(new JPanel()); // spacer
+        menuPanel.add(menuTitle);
+        menuPanel.add(menuText);
+        menuPanel.add(new JPanel()); // spacer
 
         // Adding buttons inside panels to enforce size
         JPanel startPanel = new JPanel();
         startPanel.add(startButton);
-        menu.add(startPanel);
+        menuPanel.add(startPanel);
 
         JPanel howToPanel = new JPanel();
         howToPanel.add(howToButton);
-        menu.add(howToPanel);
+        menuPanel.add(howToPanel);
 
         JPanel scoreboardPanel = new JPanel();
         scoreboardPanel.add(scoreboardButton);
-        menu.add(scoreboardPanel);
+        menuPanel.add(scoreboardPanel);
 
-        menu.add(new JPanel()); // spacer
+        menuPanel.add(new JPanel()); // spacer
 
+
+        // howto panel ----------------------------
+        //how to title
+        howToTitle = new JLabel("How To Play CONNECT 4");
+        howToTitle.setFont(font1);
+        howToTitle.setHorizontalAlignment(JLabel.CENTER);
+
+        text1 = new JLabel("OBJECTIVE");
+        text1.setFont(font2);
+        text1.setHorizontalAlignment(JLabel.CENTER);
+
+        text2 = new JLabel("SETUP");
+        text2.setFont(font2);
+        text2.setHorizontalAlignment(JLabel.CENTER);
+
+        text3 = new JLabel("GAMEPLAY");
+        text3.setFont(font2);
+        text3.setHorizontalAlignment(JLabel.CENTER);
+
+        text4 = new JLabel("HOW TO WIN");
+        text4.setFont(font2);
+        text4.setHorizontalAlignment(JLabel.CENTER);
+
+
+        //establish panel
+        howToPanel = new JPanel();
+        howToPanel.setLayout(new BorderLayout());
+
+        //spacers
+        howToPanel.add(new JPanel(), BorderLayout.NORTH);
+        howToPanel.add(new JPanel(), BorderLayout.WEST);
+        howToPanel.add(new JPanel(), BorderLayout.EAST);
+        howToPanel.add(new JPanel(), BorderLayout.SOUTH);
+
+        howToPanel.add(howToTitle, BorderLayout.NORTH);
+
+        howToPanel.add(text1, BorderLayout.CENTER);
+        howToPanel.add(new JLabel("Connect four of your colored game pieces in a row, either horizontally, vertically, or diagonally."), BorderLayout.CENTER);
+        howToPanel.add(text2, BorderLayout.CENTER);
+        howToPanel.add(new JLabel("The game board consists of a 7x6 grid. Each player chooses a color and receives 21 game pieces"), BorderLayout.CENTER);
+        howToPanel.add(text3, BorderLayout.CENTER);
+        howToPanel.add(new JLabel("On their turn, a player clicks and places one of their game pieces into any open column on the board."), BorderLayout.CENTER);
+        howToPanel.add(new JLabel("The game piece falls to the lowest available space in the column."), BorderLayout.CENTER);
+        howToPanel.add(text4, BorderLayout.CENTER);
+        howToPanel.add(new JLabel("Players alternate turns until one player wins by connecting four of their game pieces in a row. "), BorderLayout.CENTER);
+        howToPanel.add(new JLabel("If the board is filled without either player connecting four of their game pieces, the game ends in a draw."), BorderLayout.CENTER);
         //pack();
         setVisible(true);
+        menuPanel.setVisible(true);
+        howToPanel.setVisible(false);
+
     }
 
     public void actionPerformed(ActionEvent e) {
         // if How-To is clicked
         if (e.getActionCommand().equals("How-To")) {
-            menu.setVisible(false);
+            menuPanel.setVisible(false);
+            howToPanel.setVisible(true);
             // Show howToPanel or other actions
         }
     }
