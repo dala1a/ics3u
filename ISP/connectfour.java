@@ -7,6 +7,10 @@ public class connectfour {
         Frame frame = new Frame();
         frame.setSize(700, 1200); // Set initial window size
         frame.setResizable(false);
+        frame.setLocationRelativeTo(null);
+        frame.setTitle("CONNECT 4");
+        frame.setUndecorated(true);
+        //cahnge logo
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 System.exit(0);
