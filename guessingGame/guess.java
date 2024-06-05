@@ -8,7 +8,6 @@
  import java.awt.event.*;
  
  public class guess {
- 
      public static void main(String[] args) {
          Frame frame = new Frame();
          frame.setSize(1200, 150);   // Set Window Size
@@ -68,8 +67,6 @@
      }
  
      public void actionPerformed(ActionEvent e) {
-         System.out.println(index);
- 
          // what to do if guess button is pressed
          if (e.getActionCommand().equals("Guess")) {
              int guess = Integer.parseInt(guessField.getText().trim());  // The number guessed
