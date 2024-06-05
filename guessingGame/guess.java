@@ -8,7 +8,6 @@
  import java.awt.event.*;
  
  public class guess {
- 
      public static void main(String[] args) {
          Frame frame = new Frame();
          frame.setSize(1200, 150);   // Set Window Size
