@@ -63,13 +63,12 @@
          // redo button
          reset.addActionListener(this);
          pane.add(reset, BorderLayout.SOUTH);
+
          pack();
          setVisible(true);
      }
  
      public void actionPerformed(ActionEvent e) {
-         System.out.println(index);
- 
          // what to do if guess button is pressed
          if (e.getActionCommand().equals("Guess")) {
              int guess = Integer.parseInt(guessField.getText().trim());  // The number guessed
