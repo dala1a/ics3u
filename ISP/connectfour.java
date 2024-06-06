@@ -170,7 +170,7 @@ class Frame extends JFrame implements ActionListener {
      * @param newPanel The Panel that you want to insert or i guess the panel u are changing it to
      */
     public void switchPanels(JPanel newPanel) { 
-        this.getContentPane().remove(menuPanel);
+        this.getContentPane().remove(TheOneAndOnlyMainPanel);
         this.add(newPanel); 
         this.getContentPane().invalidate();
         this.getContentPane().validate();
