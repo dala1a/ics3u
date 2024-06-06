@@ -9,7 +9,7 @@ public class connectfour {
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setTitle("CONNECT 4");
-        //cahnge logo
+        //change logo
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 System.exit(0);
@@ -36,6 +36,7 @@ class Frame extends JFrame implements ActionListener {
     JPanel menuPanel; 
     JPanel howToPanel; 
     JPanel scoreboardPanel; 
+    JPanel TheOneAndOnlyMainPanel; 
 
     // Constructor
     public Frame() {
@@ -66,7 +67,7 @@ class Frame extends JFrame implements ActionListener {
         scoreboardButton.addActionListener(this);
         
         // menu panel
-        menuPanel = (JPanel) getContentPane();
+        menuPanel = new JPanel();
         menuPanel.setLayout(new GridLayout(8, 1));
 
         // Adding components with proper sizing
@@ -117,39 +118,45 @@ class Frame extends JFrame implements ActionListener {
 
         //establish panel
         howToPanel = new JPanel();
-        howToPanel.setLayout(new BorderLayout());
-
-        //spacers
-        howToPanel.add(new JPanel(), BorderLayout.NORTH);
-        howToPanel.add(new JPanel(), BorderLayout.WEST);
-        howToPanel.add(new JPanel(), BorderLayout.EAST);
-        howToPanel.add(new JPanel(), BorderLayout.SOUTH);
+        howToPanel.setLayout(new GridLayout(11,0));
 
         howToPanel.add(howToTitle, BorderLayout.NORTH);
-
         howToPanel.add(text1, BorderLayout.CENTER);
-        howToPanel.add(new JLabel("Connect four of your colored game pieces in a row, either horizontally, vertically, or diagonally."), BorderLayout.CENTER);
+        howToPanel.add(new JLabel("Connect four of your colored game pieces in a row, either horizontally, vertically, or diagonally.", JLabel.CENTER), BorderLayout.CENTER);
         howToPanel.add(text2, BorderLayout.CENTER);
-        howToPanel.add(new JLabel("The game board consists of a 7x6 grid. Each player chooses a color and receives 21 game pieces"), BorderLayout.CENTER);
+        howToPanel.add(new JLabel("The game board consists of a 7x6 grid. Each player chooses a color and receives 21 game pieces", JLabel.CENTER), BorderLayout.CENTER);
         howToPanel.add(text3, BorderLayout.CENTER);
-        howToPanel.add(new JLabel("On their turn, a player clicks and places one of their game pieces into any open column on the board."), BorderLayout.CENTER);
-        howToPanel.add(new JLabel("The game piece falls to the lowest available space in the column."), BorderLayout.CENTER);
+        howToPanel.add(new JLabel("On their turn, a player clicks and places one of their game pieces into any open column on the board.", JLabel.CENTER), BorderLayout.CENTER);
+        howToPanel.add(new JLabel("The game piece falls to the lowest available space in the column.", JLabel.CENTER), BorderLayout.CENTER);
         howToPanel.add(text4, BorderLayout.CENTER);
-        howToPanel.add(new JLabel("Players alternate turns until one player wins by connecting four of their game pieces in a row. "), BorderLayout.CENTER);
-        howToPanel.add(new JLabel("If the board is filled without either player connecting four of their game pieces, the game ends in a draw."), BorderLayout.CENTER);
+        howToPanel.add(new JLabel("Players alternate turns until one player wins by connecting four of their game pieces in a row. ", JLabel.CENTER), BorderLayout.CENTER);
+        howToPanel.add(new JLabel("If the board is filled without either player connecting four of their game pieces, the game ends in a draw.", JLabel.CENTER), BorderLayout.CENTER);
         //pack();
+        this.add(menuPanel); 
+        TheOneAndOnlyMainPanel = menuPanel; // Making a variable to store what the main panel currently is. 
         setVisible(true);
-        menuPanel.setVisible(true);
-        howToPanel.setVisible(false);
-
     }
 
     public void actionPerformed(ActionEvent e) {
         // if How-To is clicked
+        System.out.println(TheOneAndOnlyMainPanel.toString());
         if (e.getActionCommand().equals("How-To")) {
-            menuPanel.setVisible(false);
-            howToPanel.setVisible(true);
-            // Show howToPanel or other actions
+            switchPanels(howToPanel);
         }
+    }
+
+
+    // Made this new method to be able to switch out panels. 
+    /**
+     * make sure to call this method whenever u switch lol otherwise it might mess things up. You can hardcode this if u want 
+     * but i made a method for it so its easier. You can ask me if you dont get this
+     * @param newPanel The Panel that you want to insert or i guess the panel u are changing it to
+     */
+    public void switchPanels(JPanel newPanel) { 
+        this.getContentPane().remove(menuPanel);
+        this.add(newPanel); 
+        this.getContentPane().invalidate();
+        this.getContentPane().validate();
+        TheOneAndOnlyMainPanel = newPanel; // Updating the main panel to whatever u are changing it to XD kekw uwu
     }
 }
