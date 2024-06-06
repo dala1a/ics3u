@@ -30,6 +30,7 @@ class Frame extends JFrame implements ActionListener {
     private JLabel text2;
     private JLabel text3;
     private JLabel text4;
+    private JButton returnButton;
 
     Font font1 = new Font("Display", Font.BOLD, 50);
     Font font2 = new Font("Display", Font.BOLD, 30);
@@ -94,7 +95,7 @@ class Frame extends JFrame implements ActionListener {
 
 
         // howto panel ----------------------------
-        //how to title
+        //how to vars
         howToTitle = new JLabel("How To Play CONNECT 4");
         howToTitle.setFont(font1);
         howToTitle.setHorizontalAlignment(JLabel.CENTER);
@@ -115,22 +116,32 @@ class Frame extends JFrame implements ActionListener {
         text4.setFont(font2);
         text4.setHorizontalAlignment(JLabel.CENTER);
 
+        returnButton = new JButton("Return");
+        returnButton.setPreferredSize(new Dimension(400, 90));
+        returnButton.addActionListener(this);
 
-        //establish panel
+
+        //establish how to panel
         howToPanel = new JPanel();
-        howToPanel.setLayout(new GridLayout(11,0));
+        howToPanel.setLayout(new GridLayout(15,0));
 
-        howToPanel.add(howToTitle, BorderLayout.NORTH);
-        howToPanel.add(text1, BorderLayout.CENTER);
-        howToPanel.add(new JLabel("Connect four of your colored game pieces in a row, either horizontally, vertically, or diagonally.", JLabel.CENTER), BorderLayout.CENTER);
-        howToPanel.add(text2, BorderLayout.CENTER);
-        howToPanel.add(new JLabel("The game board consists of a 7x6 grid. Each player chooses a color and receives 21 game pieces", JLabel.CENTER), BorderLayout.CENTER);
-        howToPanel.add(text3, BorderLayout.CENTER);
-        howToPanel.add(new JLabel("On their turn, a player clicks and places one of their game pieces into any open column on the board.", JLabel.CENTER), BorderLayout.CENTER);
-        howToPanel.add(new JLabel("The game piece falls to the lowest available space in the column.", JLabel.CENTER), BorderLayout.CENTER);
-        howToPanel.add(text4, BorderLayout.CENTER);
-        howToPanel.add(new JLabel("Players alternate turns until one player wins by connecting four of their game pieces in a row. ", JLabel.CENTER), BorderLayout.CENTER);
-        howToPanel.add(new JLabel("If the board is filled without either player connecting four of their game pieces, the game ends in a draw.", JLabel.CENTER), BorderLayout.CENTER);
+        howToPanel.add(new JPanel());
+        howToPanel.add(howToTitle);
+        howToPanel.add(new JPanel());
+        howToPanel.add(text1);
+        howToPanel.add(new JLabel("Connect four of your colored game pieces in a row, either horizontally, vertically, or diagonally.", JLabel.CENTER));
+        howToPanel.add(text2);
+        howToPanel.add(new JLabel("The game board consists of a 7x6 grid. Each player chooses a color and receives 21 game pieces", JLabel.CENTER));
+        howToPanel.add(text3);
+        howToPanel.add(new JLabel("On their turn, a player clicks and places one of their game pieces into any open column on the board.", JLabel.CENTER));
+        howToPanel.add(new JLabel("The game piece falls to the lowest available space in the column.", JLabel.CENTER));
+        howToPanel.add(text4);
+        howToPanel.add(new JLabel("Players alternate turns until one player wins by connecting four of their game pieces in a row. ", JLabel.CENTER));
+        howToPanel.add(new JLabel("If the board is filled without either player connecting four of their game pieces, the game ends in a draw.", JLabel.CENTER));
+        howToPanel.add(returnButton);
+        howToPanel.add(new JPanel());
+        
+    
         //pack();
         this.add(menuPanel); 
         TheOneAndOnlyMainPanel = menuPanel; // Making a variable to store what the main panel currently is. 
@@ -138,11 +149,17 @@ class Frame extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        // if How-To is clicked
-        System.out.println(TheOneAndOnlyMainPanel.toString());
+        // if How-To Button is clicked
+        //System.out.println(TheOneAndOnlyMainPanel.toString());
         if (e.getActionCommand().equals("How-To")) {
             switchPanels(howToPanel);
         }
+
+        if (e.getActionCommand().equals("Return")) {
+            switchPanels(menuPanel);
+            System.out.println("raaa");
+        }
+
     }
 
 
@@ -159,4 +176,14 @@ class Frame extends JFrame implements ActionListener {
         this.getContentPane().validate();
         TheOneAndOnlyMainPanel = newPanel; // Updating the main panel to whatever u are changing it to XD kekw uwu
     }
+
+    /*
+     * public void switchPanels(JPanel oldPanel, JPanel newPanel) { 
+        this.getContentPane().remove(oldPanel);
+        this.add(newPanel); 
+        this.getContentPane().invalidate();
+        this.getContentPane().validate();
+        TheOneAndOnlyMainPanel = newPanel; // Updating the main panel to whatever u are changing it to XD kekw uwu
+    }
+     */
 }
