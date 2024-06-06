@@ -9,7 +9,6 @@ public class connectfour {
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setTitle("CONNECT 4");
-        frame.setUndecorated(true);
         //cahnge logo
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -81,11 +80,12 @@ class Frame extends JFrame implements ActionListener {
         startPanel.add(startButton);
         menuPanel.add(startPanel);
 
-        JPanel howToPanel = new JPanel();
+        
+        howToPanel = new JPanel();
         howToPanel.add(howToButton);
         menuPanel.add(howToPanel);
 
-        JPanel scoreboardPanel = new JPanel();
+        scoreboardPanel = new JPanel();
         scoreboardPanel.add(scoreboardButton);
         menuPanel.add(scoreboardPanel);
 
