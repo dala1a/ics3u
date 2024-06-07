@@ -30,7 +30,32 @@ class Frame extends JFrame implements ActionListener {
     private JLabel text2;
     private JLabel text3;
     private JLabel text4;
-    private JButton returnButton;
+    private JPanel returnPanel;
+    private JButton returnButton1;
+
+    private JButton returnButton2;
+    private JPanel playerSettings;
+    private JLabel settingsTitle;
+    private JPanel settingsTitlePanel;
+    private JPanel settingsLayout;
+    private JPanel enterName1;
+    private JPanel enterName2;
+    private JPanel chooseColor1;
+    private JPanel chooseColor2;
+    private JPanel color1;
+    private JPanel color2;
+    private JPanel colorbox1;
+    private JPanel colorbox2;
+    private JPanel playPanel;
+    private JPanel playBtnPanel;
+    //private JPanel 
+    private JTextField player1;
+    private JTextField player2;
+    private JButton playButton;
+    private String[] choices1 = {"Red", "Orange", "Yellow", "Green", "Blue", "Black"};
+    private String[] choices2 = {"Blue", "Orange", "Yellow", "Green", "Red", "Black"};
+    private JComboBox<String> colorChoice1 = new JComboBox<String>(choices1);
+    private JComboBox<String> colorChoice2 = new JComboBox<String>(choices2);
 
     Font font1 = new Font("Display", Font.BOLD, 50);
     Font font2 = new Font("Display", Font.BOLD, 30);
@@ -41,7 +66,7 @@ class Frame extends JFrame implements ActionListener {
 
     // Constructor
     public Frame() {
-        // menu panel ---------------
+        // menu panel ------------------------------------------------------------------------------
         // title
         menuTitle = new JLabel("CONNECT 4");
         menuTitle.setFont(font1);
@@ -67,7 +92,7 @@ class Frame extends JFrame implements ActionListener {
         scoreboardButton.setPreferredSize(new Dimension(400, 90));
         scoreboardButton.addActionListener(this);
         
-        // menu panel
+        // establish menu panel
         menuPanel = new JPanel();
         menuPanel.setLayout(new GridLayout(8, 1));
 
@@ -94,7 +119,7 @@ class Frame extends JFrame implements ActionListener {
         menuPanel.add(new JPanel()); // spacer
 
 
-        // howto panel ----------------------------
+        // howto panel --------------------------------------------------------------------------
         //how to vars
         howToTitle = new JLabel("How To Play CONNECT 4");
         howToTitle.setFont(font1);
@@ -116,32 +141,126 @@ class Frame extends JFrame implements ActionListener {
         text4.setFont(font2);
         text4.setHorizontalAlignment(JLabel.CENTER);
 
-        returnButton = new JButton("Return");
-        returnButton.setPreferredSize(new Dimension(400, 90));
-        returnButton.addActionListener(this);
+        returnButton1 = new JButton("<");
+        returnButton1.setPreferredSize(new Dimension(50, 50));
+        returnButton1.addActionListener(this);
 
 
         //establish how to panel
         howToPanel = new JPanel();
         howToPanel.setLayout(new GridLayout(15,0));
 
+        //return button
+        returnPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        returnPanel.add(returnButton1);
+        
+        // Adding components with proper sizing
+        howToPanel.add(returnPanel);
         howToPanel.add(new JPanel());
         howToPanel.add(howToTitle);
         howToPanel.add(new JPanel());
         howToPanel.add(text1);
         howToPanel.add(new JLabel("Connect four of your colored game pieces in a row, either horizontally, vertically, or diagonally.", JLabel.CENTER));
         howToPanel.add(text2);
-        howToPanel.add(new JLabel("The game board consists of a 7x6 grid. Each player chooses a color and receives 21 game pieces", JLabel.CENTER));
+        howToPanel.add(new JLabel("The game board consists of a 7x6 grid. Each player chooses a color and receives 21 game pieces.", JLabel.CENTER));
         howToPanel.add(text3);
-        howToPanel.add(new JLabel("On their turn, a player clicks and places one of their game pieces into any open column on the board.", JLabel.CENTER));
+        howToPanel.add(new JLabel("On their turn, a player clicks and places one of their game pieces into any open column on the board. ", JLabel.CENTER));
         howToPanel.add(new JLabel("The game piece falls to the lowest available space in the column.", JLabel.CENTER));
         howToPanel.add(text4);
         howToPanel.add(new JLabel("Players alternate turns until one player wins by connecting four of their game pieces in a row. ", JLabel.CENTER));
         howToPanel.add(new JLabel("If the board is filled without either player connecting four of their game pieces, the game ends in a draw.", JLabel.CENTER));
-        howToPanel.add(returnButton);
         howToPanel.add(new JPanel());
         
-    
+
+        //Start panel -------------------------------------------------------------------------
+       
+        //CHOOSE A COLOR & NAME FOR PLAYERS
+        //vars
+        
+        settingsTitlePanel = new JPanel(new BorderLayout());
+        returnPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        returnButton2 = new JButton("<");
+        returnButton2.setPreferredSize(new Dimension(50, 50));
+        returnButton2.addActionListener(this);
+        returnPanel.add(returnButton2);
+
+        settingsTitlePanel.add(returnPanel, BorderLayout.NORTH);
+        settingsTitle = new JLabel("Player Setup");
+        settingsTitle.setFont(font1);
+        settingsTitle.setHorizontalAlignment(JLabel.CENTER);
+        settingsTitlePanel.add(settingsTitle, BorderLayout.CENTER);
+
+        player1 = new JTextField();
+        player2 = new JTextField();
+        settingsLayout = new JPanel(new GridLayout(4,2));
+        enterName1 = new JPanel(new GridLayout(1,2));
+        enterName2 = new JPanel(new GridLayout(1,2));
+        chooseColor1 = new JPanel(new GridLayout(1,2));
+        chooseColor2 = new JPanel(new GridLayout(1,2));
+        
+
+        enterName1.add(new JLabel("Enter Name:", JLabel.CENTER));
+        enterName1.add(player1);
+
+        enterName2.add(new JLabel("Enter Name:", JLabel.CENTER));
+        enterName2.add(player2);
+
+        chooseColor1.add(new JLabel("Choose Color:", JLabel.CENTER));
+        chooseColor1.add(colorChoice1);
+
+        chooseColor2.add(new JLabel("Choose Color:", JLabel.CENTER));
+        chooseColor2.add(colorChoice2);
+
+        color1 = new JPanel();
+        color1.setBackground(Color.RED);
+        
+        colorbox1 = new JPanel(new GridLayout(1,2));
+        colorbox1.add(new JPanel());
+        colorbox1.add(color1);
+        //colorbox1.add(new JPanel());
+
+        color2 = new JPanel();
+        color2.setBackground(Color.BLUE);
+        
+        colorbox2 = new JPanel(new GridLayout(1,2));
+        colorbox2.add(new JPanel());
+        colorbox2.add(color2);
+        //colorbox2.add(new JPanel());
+
+        playButton = new JButton("PLAY");
+        playButton.setPreferredSize(new Dimension(250, 50));
+        playButton.addActionListener(this);
+
+        playBtnPanel = new JPanel();
+        playBtnPanel.add(playButton);
+
+        playPanel = new JPanel(new GridLayout(3,1));
+        playPanel.add(new JPanel());
+        playPanel.add(playBtnPanel);
+        playPanel.add(new JPanel());
+      
+
+        settingsLayout.add(new JLabel("Player 1", JLabel.CENTER));
+        settingsLayout.add(new JLabel("Player 2", JLabel.CENTER));
+        settingsLayout.add(enterName1);
+        settingsLayout.add(enterName2);
+        settingsLayout.add(chooseColor1);
+        settingsLayout.add(chooseColor2);
+        settingsLayout.add(colorbox1);
+        settingsLayout.add(colorbox2);
+
+
+        playerSettings = new JPanel();
+        playerSettings.setLayout(new GridLayout(3,1));
+        
+        
+
+        //add components
+        playerSettings.add(settingsTitlePanel);
+        playerSettings.add(settingsLayout);
+        playerSettings.add(playPanel);
+
+
         //pack();
         this.add(menuPanel); 
         TheOneAndOnlyMainPanel = menuPanel; // Making a variable to store what the main panel currently is. 
@@ -155,14 +274,20 @@ class Frame extends JFrame implements ActionListener {
             switchPanels(howToPanel);
         }
 
-        if (e.getActionCommand().equals("Return")) {
+        if (e.getActionCommand().equals("<")) {
             switchPanels(menuPanel);
-            System.out.println("raaa");
         }
 
+        if (e.getActionCommand().equals("Start")) {
+            switchPanels(playerSettings);
+        }
     }
 
 
+    public void refresh(){
+        this.getContentPane().revalidate();
+        this.getContentPane().repaint();
+    }
     // Made this new method to be able to switch out panels. 
     /**
      * make sure to call this method whenever u switch lol otherwise it might mess things up. You can hardcode this if u want 
@@ -171,19 +296,8 @@ class Frame extends JFrame implements ActionListener {
      */
     public void switchPanels(JPanel newPanel) { 
         this.getContentPane().remove(TheOneAndOnlyMainPanel);
-        this.add(newPanel); 
-        this.getContentPane().invalidate();
-        this.getContentPane().validate();
+        this.getContentPane().add(newPanel); 
+        refresh();
         TheOneAndOnlyMainPanel = newPanel; // Updating the main panel to whatever u are changing it to XD kekw uwu
     }
-
-    /*
-     * public void switchPanels(JPanel oldPanel, JPanel newPanel) { 
-        this.getContentPane().remove(oldPanel);
-        this.add(newPanel); 
-        this.getContentPane().invalidate();
-        this.getContentPane().validate();
-        TheOneAndOnlyMainPanel = newPanel; // Updating the main panel to whatever u are changing it to XD kekw uwu
-    }
-     */
 }
