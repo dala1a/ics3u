@@ -19,39 +19,22 @@ public class connectfour {
 }
 
 class Frame extends JFrame implements ActionListener {
-    private JLabel menuTitle;
-    private JLabel menuText;
-    private JButton startButton;
-    private JButton howToButton;
-    private JButton scoreboardButton;
+    //menu vars
+    JPanel menuPanel, howToPanel, scoreboardPanel, TheOneAndOnlyMainPanel; 
+    private JLabel menuTitle, menuText;
+    private JButton startButton, howToButton, scoreboardButton;
 
-    private JLabel howToTitle;
-    private JLabel text1;
-    private JLabel text2;
-    private JLabel text3;
-    private JLabel text4;
+    //how to panel vars
+    private JLabel howToTitle, text1, text2, text3, text4;
     private JPanel returnPanel;
     private JButton returnButton1;
 
-    private JButton returnButton2;
-    private JPanel playerSettings;
+    //player settings vars
+    private JButton returnButton2, playButton;
+    private JPanel playerSettings, settingsTitlePanel, settingsLayout, enterName1, enterName2, chooseColor1, chooseColor2, color1, color2, colorbox1, colorbox2, playPanel, playBtnPanel;
     private JLabel settingsTitle;
-    private JPanel settingsTitlePanel;
-    private JPanel settingsLayout;
-    private JPanel enterName1;
-    private JPanel enterName2;
-    private JPanel chooseColor1;
-    private JPanel chooseColor2;
-    private JPanel color1;
-    private JPanel color2;
-    private JPanel colorbox1;
-    private JPanel colorbox2;
-    private JPanel playPanel;
-    private JPanel playBtnPanel;
-    //private JPanel 
-    private JTextField player1;
-    private JTextField player2;
-    private JButton playButton;
+    private JTextField player1, player2;
+  
     private String[] choices1 = {"Red", "Orange", "Yellow", "Green", "Blue", "Black"};
     private String[] choices2 = {"Blue", "Orange", "Yellow", "Green", "Red", "Black"};
     private JComboBox<String> colorChoice1 = new JComboBox<String>(choices1);
@@ -59,10 +42,6 @@ class Frame extends JFrame implements ActionListener {
 
     Font font1 = new Font("Display", Font.BOLD, 50);
     Font font2 = new Font("Display", Font.BOLD, 30);
-    JPanel menuPanel; 
-    JPanel howToPanel; 
-    JPanel scoreboardPanel; 
-    JPanel TheOneAndOnlyMainPanel; 
 
     // Constructor
     public Frame() {
@@ -191,7 +170,9 @@ class Frame extends JFrame implements ActionListener {
         settingsTitlePanel.add(settingsTitle, BorderLayout.CENTER);
 
         player1 = new JTextField();
+        player1.addActionListener(this);
         player2 = new JTextField();
+        player2.addActionListener(this);
         settingsLayout = new JPanel(new GridLayout(4,2));
         enterName1 = new JPanel(new GridLayout(1,2));
         enterName2 = new JPanel(new GridLayout(1,2));
@@ -280,6 +261,14 @@ class Frame extends JFrame implements ActionListener {
 
         if (e.getActionCommand().equals("Start")) {
             switchPanels(playerSettings);
+        }
+
+        if (e.getActionCommand().equals("PLAY")) {
+            String p1 = player1.getText().trim(); 
+            String p2 = player2.getText().trim(); 
+            if (p1.equalsIgnoreCase(p2)){
+                
+            }
         }
     }
 
