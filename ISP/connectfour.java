@@ -32,21 +32,26 @@ class Frame extends JFrame implements ActionListener {
     //player settings vars
     private JButton returnButton2, playButton;
     private JPanel playerSettings, settingsTitlePanel, settingsLayout, enterName1, enterName2, chooseColor1, chooseColor2, color1, color2, colorbox1, colorbox2, playPanel, playBtnPanel;
-    private JLabel settingsTitle, feedback;
+    private JLabel settingsTitle;
     private JTextField player1, player2;
   
-    private String[] choices1 = {"Red", "Orange", "Yellow", "Green", "Blue", "Black"};
-    private String[] choices2 = {"Blue", "Orange", "Yellow", "Green", "Red", "Black"};
+    private String[] choices1 = {"CHOOSE", "Red", "Orange", "Yellow", "Green", "Blue"};
+    private String[] choices2 = {"CHOOSE", "Red", "Orange", "Yellow", "Green", "Blue"};
     private JComboBox<String> colorChoice1;
     private JComboBox<String> colorChoice2;
 
+    private JPanel gamePanel, gameboard;
+    private JButton[][] grid = new JButton[7][7];
+    private JButton box;
+    private JButton[] buttons = new JButton[7];
+    
 
     Font font1 = new Font("Display", Font.BOLD, 50);
     Font font2 = new Font("Display", Font.BOLD, 30);
 
     // Constructor
     public Frame() {
-        // menu panel ------------------------------------------------------------------------------
+        // menu panel --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         // title
         menuTitle = new JLabel("CONNECT 4");
         menuTitle.setFont(font1);
@@ -99,7 +104,7 @@ class Frame extends JFrame implements ActionListener {
         menuPanel.add(new JPanel()); // spacer
 
 
-        // howto panel --------------------------------------------------------------------------
+        // howto panel ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         //how to vars
         howToTitle = new JLabel("How To Play CONNECT 4");
         howToTitle.setFont(font1);
@@ -152,7 +157,7 @@ class Frame extends JFrame implements ActionListener {
         howToPanel.add(new JPanel());
         
 
-        //Start panel -------------------------------------------------------------------------
+        //Start panel -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
        
         //CHOOSE A COLOR & NAME FOR PLAYERS
         //vars
@@ -214,18 +219,12 @@ class Frame extends JFrame implements ActionListener {
         playButton = new JButton("PLAY");
         playButton.setPreferredSize(new Dimension(250, 50));
         playButton.addActionListener(this);
-
         playBtnPanel = new JPanel();
         playBtnPanel.add(playButton);
-
-        feedback = new JLabel("", JLabel.CENTER);
-        feedback.setForeground(Color.RED);
         playPanel = new JPanel(new GridLayout(3,1));
-        playPanel.add(feedback);
         playPanel.add(playBtnPanel);
         playPanel.add(new JPanel());
       
-
         settingsLayout.add(new JLabel("Player 1", JLabel.CENTER));
         settingsLayout.add(new JLabel("Player 2", JLabel.CENTER));
         settingsLayout.add(enterName1);
@@ -235,67 +234,107 @@ class Frame extends JFrame implements ActionListener {
         settingsLayout.add(colorbox1);
         settingsLayout.add(colorbox2);
 
-
+        //add components
         playerSettings = new JPanel();
         playerSettings.setLayout(new GridLayout(3,1));
-        
-        
-
-        //add components
         playerSettings.add(settingsTitlePanel);
         playerSettings.add(settingsLayout);
         playerSettings.add(playPanel);
+
+
+        //game panel ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        gamePanel = new JPanel();
+        gamePanel.setLayout(new BorderLayout());
+
+        gameboard = new JPanel(new GridLayout(7,7));
+        gameboard.setSize(700,600);
+
+        for (int i = 0; i < buttons.length; i++){
+            JButton temp = new JButton(String.valueOf(i));
+            temp.setBackground(Color.WHITE);
+            gameboard.add(temp);
+            buttons[i] = temp;
+        }
+
+        for (int r = 1; r < grid.length; r++) {
+            for (int c = 0; c < grid[0].length; c++) {
+                box = new JButton(r + " " + c);
+                box.setBackground(Color.BLACK);
+                box.setEnabled(false);
+                gameboard.add(box);
+                grid[r][c] = box;
+            }
+        }
+        
+        gamePanel.add(gameboard);
+
         //pack();
         this.add(menuPanel); 
         TheOneAndOnlyMainPanel = menuPanel; // Making a variable to store what the main panel currently is. 
         setVisible(true);
+        
+
     }
 
+   
+
     public void actionPerformed(ActionEvent e) {
-        // if How-To Button is clicked
-        //System.out.println(TheOneAndOnlyMainPanel.toString());
-
-        String p1Color = (String)colorChoice1.getSelectedItem();
-        String p2Color = (String)colorChoice2.getSelectedItem();
-        
-        System.out.println(color1.getBackground().toString() + " " + p2Color);
-        pickColor(p1Color, color1);
-        pickColor(p2Color, color2);
-
-
-        if (e.getActionCommand().equals("How-To")) {
-            switchPanels(howToPanel);
-        }
-
+        //universal
         if (e.getActionCommand().equals("<")) {
             switchPanels(menuPanel);
+        }
+
+        //main menu
+        if (e.getActionCommand().equals("How-To")) {
+            switchPanels(howToPanel);
         }
 
         if (e.getActionCommand().equals("Start")) {
             switchPanels(playerSettings);
         }
+        //Start
+        String p1Name = player1.getText().trim(); 
+        String p2Name = player2.getText().trim(); 
+        String p1Color = (String)colorChoice1.getSelectedItem();
+        String p2Color = (String)colorChoice2.getSelectedItem();
+        // Start- player settings panel
+        pickColor(p1Color, color1);
+        pickColor(p2Color, color2);
+        
+        if (p1Name.equalsIgnoreCase(p2Name) && !(p1Name.isBlank())){
+            JOptionPane.showMessageDialog(this, "Please choose different names from each other!", "ALERT", JOptionPane.ERROR_MESSAGE);
+        }
+        
+
+        if ((p1Color == p2Color ) && (p1Color != "CHOOSE")){
+            JOptionPane.showMessageDialog(this, "Please choose a different color from the other player!", "ALERT", JOptionPane.ERROR_MESSAGE); 
+            color1.setBackground(Color.WHITE);
+            colorChoice1.setSelectedItem("CHOOSE");
+            color2.setBackground(Color.WHITE);
+            colorChoice2.setSelectedItem("CHOOSE");
+        }
 
         if (e.getActionCommand().equals("PLAY")) {
-            String p1Name = player1.getText().trim(); 
-            String p2Name = player2.getText().trim(); 
-            
-
-            if (p1Name.equalsIgnoreCase(p2Name)){
-                feedback.setText("Please choose different names from each other!");
-            }
-
             if ((p1Name.isBlank() || p2Color.isBlank()) || (p1Name.isBlank() && p2Color.isBlank())){
-                feedback.setText("Please enter player name(s)!");
+                JOptionPane.showMessageDialog(this, "Enter player name(s)", "ALERT", JOptionPane.ERROR_MESSAGE);
             }
 
-            if (p1Color == p2Color){
-                feedback.setText("Please choose different colors from each other!");
+            else if ((p1Color == "CHOOSE") || (p2Color == "CHOOSE")) {
+                JOptionPane.showMessageDialog(this, "Please choose a color!", "ALERT", JOptionPane.ERROR_MESSAGE);
             }
-            
+            else{
+                switchPanels(gamePanel);
+            }
         }
-    }
+
+
+        }
+    
     public void pickColor(String color, JPanel colorbox){
         switch(color){
+            case "CHOOSE":
+                colorbox.setBackground(Color.WHITE);
+                break;
             case "Red":
                 colorbox.setBackground(Color.RED);
                 break;
@@ -310,9 +349,6 @@ class Frame extends JFrame implements ActionListener {
                 break;
             case "Blue":
                 colorbox.setBackground(Color.BLUE);
-                break;
-            case "Black":
-                colorbox.setBackground(Color.BLACK);
                 break;
             default:
                 colorbox.setBackground(Color.WHITE);
