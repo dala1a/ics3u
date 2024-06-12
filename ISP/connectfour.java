@@ -1,6 +1,7 @@
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.Arrays;
 
 public class connectfour {
     public static void main(String[] args) {
@@ -44,7 +45,12 @@ class Frame extends JFrame implements ActionListener {
     private JButton[][] grid = new JButton[7][7];
     private JButton box;
     private JButton[] buttons = new JButton[7];
-    
+    //d dddddddddddddddddddddddddddd
+    private int[][] backend = new int[6][7]; 
+    private int columnChosen = 0; 
+    private int currentPlayer = 1;  
+    private Color player1Color; 
+    private Color player2Color;       
 
     Font font1 = new Font("Display", Font.BOLD, 50);
     Font font2 = new Font("Display", Font.BOLD, 30);
@@ -250,7 +256,8 @@ class Frame extends JFrame implements ActionListener {
         gameboard.setSize(700,600);
 
         for (int i = 0; i < buttons.length; i++){
-            JButton temp = new JButton(String.valueOf(i));
+            JButton temp = new JButton("CLICK " + i);
+            temp.addActionListener(this);
             temp.setBackground(Color.WHITE);
             gameboard.add(temp);
             buttons[i] = temp;
@@ -258,14 +265,20 @@ class Frame extends JFrame implements ActionListener {
 
         for (int r = 1; r < grid.length; r++) {
             for (int c = 0; c < grid[0].length; c++) {
-                box = new JButton(r + " " + c);
-                box.setBackground(Color.BLACK);
+                box = new JButton();
+                box.setBackground(Color.WHITE);
                 box.setEnabled(false);
                 gameboard.add(box);
                 grid[r][c] = box;
             }
         }
-        
+
+        for (int r = 0; r < backend.length; r++) { 
+            for(int c = 0; c < backend[r].length; c++) { 
+                backend[r][c] = 0; 
+            }
+        }
+
         gamePanel.add(gameboard);
 
         //pack();
@@ -279,6 +292,101 @@ class Frame extends JFrame implements ActionListener {
    
 
     public void actionPerformed(ActionEvent e) {
+
+        System.out.println(currentPlayer);
+       
+    try { 
+       switch (e.getActionCommand()) {
+        case "CLICK 0":
+            columnChosen = 0;
+            if(currentPlayer == 1) { 
+                grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player1Color);
+                backend[BottomDrop(backend, columnChosen)][columnChosen] = 1;
+                currentPlayer = 2; 
+            } else if (currentPlayer == 2) { 
+                grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player2Color);
+                backend[BottomDrop(backend, columnChosen)][columnChosen] = 2;
+                currentPlayer = 1; 
+            }
+            break;
+        case "CLICK 1": 
+            columnChosen = 1;
+            if(currentPlayer == 1) { 
+                grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player1Color);
+                backend[BottomDrop(backend, columnChosen)][columnChosen] = 1;
+                currentPlayer = 2; 
+            } else if (currentPlayer == 2) { 
+                grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player2Color);
+                backend[BottomDrop(backend, columnChosen)][columnChosen] = 2;
+                currentPlayer = 1; 
+            }
+            break; 
+        case "CLICK 2": 
+            columnChosen = 2;
+            if(currentPlayer == 1) { 
+                grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player1Color);
+                backend[BottomDrop(backend, columnChosen)][columnChosen] = 1;
+                currentPlayer = 2; 
+            } else if (currentPlayer == 2) { 
+                grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player2Color);
+                backend[BottomDrop(backend, columnChosen)][columnChosen] = 2;
+                currentPlayer = 1; 
+            }
+            break; 
+        case "CLICK 3": 
+            columnChosen = 3;
+            if(currentPlayer == 1) { 
+                grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player1Color);
+                backend[BottomDrop(backend, columnChosen)][columnChosen] = 1;
+                currentPlayer = 2; 
+            } else if (currentPlayer == 2) { 
+                grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player2Color);
+                backend[BottomDrop(backend, columnChosen)][columnChosen] = 2;
+                currentPlayer = 1; 
+            }
+            break;  
+        case "CLICK 4": 
+            columnChosen = 4;
+            if(currentPlayer == 1) { 
+                grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player1Color);
+                backend[BottomDrop(backend, columnChosen)][columnChosen] = 1;
+                currentPlayer = 2; 
+            } else if (currentPlayer == 2) { 
+                grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player2Color);
+                backend[BottomDrop(backend, columnChosen)][columnChosen] = 2;
+                currentPlayer = 1; 
+        }
+            break; 
+        case "CLICK 5": 
+            columnChosen = 5;
+            if(currentPlayer == 1) { 
+                grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player1Color);
+                backend[BottomDrop(backend, columnChosen)][columnChosen] = 1;
+                currentPlayer = 2; 
+            } else if (currentPlayer == 2) { 
+                grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player2Color);
+                backend[BottomDrop(backend, columnChosen)][columnChosen] = 2;
+                currentPlayer = 1; 
+            }
+            break; 
+        case "CLICK 6": 
+            columnChosen = 6;
+            if(currentPlayer == 1) { 
+                grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player1Color);
+                backend[BottomDrop(backend, columnChosen)][columnChosen] = 1;
+                currentPlayer = 2; 
+            } else if (currentPlayer == 2) { 
+                grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player2Color);
+                backend[BottomDrop(backend, columnChosen)][columnChosen] = 2;
+                currentPlayer = 1; 
+            }
+            break; 
+        default:
+            break;
+       }
+    } catch (Exception ee){}
+
+
         //universal
         if (e.getActionCommand().equals("<")) {
             switchPanels(menuPanel);
@@ -323,6 +431,8 @@ class Frame extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(this, "Please choose a color!", "ALERT", JOptionPane.ERROR_MESSAGE);
             }
             else{
+                player1Color = color1.getBackground(); 
+                player2Color = color2.getBackground();
                 switchPanels(gamePanel);
             }
         }
@@ -354,12 +464,13 @@ class Frame extends JFrame implements ActionListener {
                 colorbox.setBackground(Color.WHITE);
         }
         refresh();
-    }
+    }  
 
     public void refresh(){
         this.getContentPane().revalidate();
         this.getContentPane().repaint();
     }
+
     // Made this new method to be able to switch out panels. 
     /**
      * make sure to call this method whenever u switch lol otherwise it might mess things up. You can hardcode this if u want 
@@ -372,4 +483,30 @@ class Frame extends JFrame implements ActionListener {
         refresh();
         TheOneAndOnlyMainPanel = newPanel; // Updating the main panel to whatever u are changing it to XD kekw uwu
     }
+
+    public void printOutArray() { 
+        System.out.println("===========================");
+        for (int i = 0; i<backend.length; i++) {
+            for (int j = 0; j<backend[i].length; j++) {
+                System.out.print(backend[i][j]);
+            }
+            System.out.println();
+        }  
+        System.out.println("===========================");  
+    }
+
+    public int BottomDrop(int[][] g, int col) {
+        int row = -1; 
+        for (int i = 0; i < g.length; i++) {
+            if (g[i][col] == 0) { //keeps moving the column until row != 0
+                row = i;
+            } else {
+                break;
+            }
+        }
+        return row;
+    }
+
+
+    
 }
