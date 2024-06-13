@@ -1,7 +1,6 @@
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
-import java.util.Arrays;
 
 public class connectfour {
     public static void main(String[] args) {
@@ -35,23 +34,23 @@ class Frame extends JFrame implements ActionListener {
     private JPanel playerSettings, settingsTitlePanel, settingsLayout, enterName1, enterName2, chooseColor1, chooseColor2, color1, color2, colorbox1, colorbox2, playPanel, playBtnPanel;
     private JLabel settingsTitle;
     private JTextField player1, player2;
-  
     private String[] choices1 = {"CHOOSE", "Red", "Orange", "Yellow", "Green", "Blue"};
     private String[] choices2 = {"CHOOSE", "Red", "Orange", "Yellow", "Green", "Blue"};
     private JComboBox<String> colorChoice1;
     private JComboBox<String> colorChoice2;
 
+    //game panel vars
     private JPanel gamePanel, gameboard;
     private JButton[][] grid = new JButton[7][7];
     private JButton box;
     private JButton[] buttons = new JButton[7];
-    //d dddddddddddddddddddddddddddd
     private int[][] backend = new int[6][7]; 
     private int columnChosen = 0; 
     private int currentPlayer = 1;  
     private Color player1Color; 
     private Color player2Color;       
 
+    //Text size
     Font font1 = new Font("Display", Font.BOLD, 50);
     Font font2 = new Font("Display", Font.BOLD, 30);
 
@@ -259,6 +258,7 @@ class Frame extends JFrame implements ActionListener {
             JButton temp = new JButton("CLICK " + i);
             temp.addActionListener(this);
             temp.setBackground(Color.WHITE);
+            temp.setOpaque(true); //see color on mac
             gameboard.add(temp);
             buttons[i] = temp;
         }
@@ -266,7 +266,8 @@ class Frame extends JFrame implements ActionListener {
         for (int r = 1; r < grid.length; r++) {
             for (int c = 0; c < grid[0].length; c++) {
                 box = new JButton();
-                box.setBackground(Color.WHITE);
+                box.setBackground(Color.BLACK);
+                box.setOpaque(true); //see color on mac
                 box.setEnabled(false);
                 gameboard.add(box);
                 grid[r][c] = box;
@@ -285,108 +286,12 @@ class Frame extends JFrame implements ActionListener {
         this.add(menuPanel); 
         TheOneAndOnlyMainPanel = menuPanel; // Making a variable to store what the main panel currently is. 
         setVisible(true);
-        
-
     }
 
    
 
     public void actionPerformed(ActionEvent e) {
-
-        System.out.println(currentPlayer);
-       
-    try { 
-       switch (e.getActionCommand()) {
-        case "CLICK 0":
-            columnChosen = 0;
-            if(currentPlayer == 1) { 
-                grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player1Color);
-                backend[BottomDrop(backend, columnChosen)][columnChosen] = 1;
-                currentPlayer = 2; 
-            } else if (currentPlayer == 2) { 
-                grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player2Color);
-                backend[BottomDrop(backend, columnChosen)][columnChosen] = 2;
-                currentPlayer = 1; 
-            }
-            break;
-        case "CLICK 1": 
-            columnChosen = 1;
-            if(currentPlayer == 1) { 
-                grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player1Color);
-                backend[BottomDrop(backend, columnChosen)][columnChosen] = 1;
-                currentPlayer = 2; 
-            } else if (currentPlayer == 2) { 
-                grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player2Color);
-                backend[BottomDrop(backend, columnChosen)][columnChosen] = 2;
-                currentPlayer = 1; 
-            }
-            break; 
-        case "CLICK 2": 
-            columnChosen = 2;
-            if(currentPlayer == 1) { 
-                grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player1Color);
-                backend[BottomDrop(backend, columnChosen)][columnChosen] = 1;
-                currentPlayer = 2; 
-            } else if (currentPlayer == 2) { 
-                grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player2Color);
-                backend[BottomDrop(backend, columnChosen)][columnChosen] = 2;
-                currentPlayer = 1; 
-            }
-            break; 
-        case "CLICK 3": 
-            columnChosen = 3;
-            if(currentPlayer == 1) { 
-                grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player1Color);
-                backend[BottomDrop(backend, columnChosen)][columnChosen] = 1;
-                currentPlayer = 2; 
-            } else if (currentPlayer == 2) { 
-                grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player2Color);
-                backend[BottomDrop(backend, columnChosen)][columnChosen] = 2;
-                currentPlayer = 1; 
-            }
-            break;  
-        case "CLICK 4": 
-            columnChosen = 4;
-            if(currentPlayer == 1) { 
-                grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player1Color);
-                backend[BottomDrop(backend, columnChosen)][columnChosen] = 1;
-                currentPlayer = 2; 
-            } else if (currentPlayer == 2) { 
-                grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player2Color);
-                backend[BottomDrop(backend, columnChosen)][columnChosen] = 2;
-                currentPlayer = 1; 
-        }
-            break; 
-        case "CLICK 5": 
-            columnChosen = 5;
-            if(currentPlayer == 1) { 
-                grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player1Color);
-                backend[BottomDrop(backend, columnChosen)][columnChosen] = 1;
-                currentPlayer = 2; 
-            } else if (currentPlayer == 2) { 
-                grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player2Color);
-                backend[BottomDrop(backend, columnChosen)][columnChosen] = 2;
-                currentPlayer = 1; 
-            }
-            break; 
-        case "CLICK 6": 
-            columnChosen = 6;
-            if(currentPlayer == 1) { 
-                grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player1Color);
-                backend[BottomDrop(backend, columnChosen)][columnChosen] = 1;
-                currentPlayer = 2; 
-            } else if (currentPlayer == 2) { 
-                grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player2Color);
-                backend[BottomDrop(backend, columnChosen)][columnChosen] = 2;
-                currentPlayer = 1; 
-            }
-            break; 
-        default:
-            break;
-       }
-    } catch (Exception ee){}
-
-
+        //System.out.println(currentPlayer);
         //universal
         if (e.getActionCommand().equals("<")) {
             switchPanels(menuPanel);
@@ -423,7 +328,7 @@ class Frame extends JFrame implements ActionListener {
         }
 
         if (e.getActionCommand().equals("PLAY")) {
-            if ((p1Name.isBlank() || p2Color.isBlank()) || (p1Name.isBlank() && p2Color.isBlank())){
+            if (p1Name.isBlank() || p2Name.isBlank()){
                 JOptionPane.showMessageDialog(this, "Enter player name(s)", "ALERT", JOptionPane.ERROR_MESSAGE);
             }
 
@@ -436,7 +341,182 @@ class Frame extends JFrame implements ActionListener {
                 switchPanels(gamePanel);
             }
         }
-
+        
+        try { 
+            switch (e.getActionCommand()) {
+             case "CLICK 0":
+                 columnChosen = 0;
+                 if(currentPlayer == 1) { 
+                     grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player1Color);
+                     backend[BottomDrop(backend, columnChosen)][columnChosen] = 1;
+                     if (fourConnected(currentPlayer)){
+                        for (int i = 0; i < buttons.length; i++){
+                            buttons[i].setEnabled(false);
+                        }
+                        System.out.println("WINNER: " + p1Name);
+                    }
+                     currentPlayer = 2; 
+                 } else if (currentPlayer == 2) { 
+                     grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player2Color);
+                     backend[BottomDrop(backend, columnChosen)][columnChosen] = 2;
+                     if (fourConnected(currentPlayer)){
+                        for (int i = 0; i < buttons.length; i++){
+                            buttons[i].setEnabled(false);
+                        }
+                        System.out.println("WINNER: " + p2Name);
+                    }
+                     currentPlayer = 1; 
+                 }
+                 break;
+             case "CLICK 1": 
+                 columnChosen = 1;
+                 if(currentPlayer == 1) { 
+                     grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player1Color);
+                     backend[BottomDrop(backend, columnChosen)][columnChosen] = 1;
+                     if (fourConnected(currentPlayer)){
+                        for (int i = 0; i < buttons.length; i++){
+                            buttons[i].setEnabled(false);
+                        }
+                        System.out.println("WINNER: " + p1Name);
+                    }
+                     currentPlayer = 2; 
+                 } else if (currentPlayer == 2) { 
+                     grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player2Color);
+                     backend[BottomDrop(backend, columnChosen)][columnChosen] = 2;
+                     if (fourConnected(currentPlayer)){
+                        for (int i = 0; i < buttons.length; i++){
+                            buttons[i].setEnabled(false);
+                        }
+                        System.out.println("WINNER: " + p2Name);
+                    }
+                     currentPlayer = 1; 
+                 }
+                 break; 
+             case "CLICK 2": 
+                 columnChosen = 2;
+                 if(currentPlayer == 1) { 
+                     grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player1Color);
+                     backend[BottomDrop(backend, columnChosen)][columnChosen] = 1;
+                     if (fourConnected(currentPlayer)){
+                        for (int i = 0; i < buttons.length; i++){
+                            buttons[i].setEnabled(false);
+                        }
+                        System.out.println("WINNER: " + p1Name);
+                    }
+                     currentPlayer = 2; 
+                 } else if (currentPlayer == 2) { 
+                     grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player2Color);
+                     backend[BottomDrop(backend, columnChosen)][columnChosen] = 2;
+                     if (fourConnected(currentPlayer)){
+                        for (int i = 0; i < buttons.length; i++){
+                            buttons[i].setEnabled(false);
+                        }
+                        System.out.println("WINNER: " + p2Name);
+                    }
+                     currentPlayer = 1; 
+                 }
+                 break; 
+             case "CLICK 3": 
+                 columnChosen = 3;
+                 if(currentPlayer == 1) { 
+                     grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player1Color);
+                     backend[BottomDrop(backend, columnChosen)][columnChosen] = 1;
+                     if (fourConnected(currentPlayer)){
+                        for (int i = 0; i < buttons.length; i++){
+                            buttons[i].setEnabled(false);
+                        }
+                        System.out.println("WINNER: " + p1Name);
+                    }
+                     currentPlayer = 2; 
+                 } else if (currentPlayer == 2) { 
+                     grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player2Color);
+                     backend[BottomDrop(backend, columnChosen)][columnChosen] = 2;
+                     if (fourConnected(currentPlayer)){
+                        for (int i = 0; i < buttons.length; i++){
+                            buttons[i].setEnabled(false);
+                        }
+                        System.out.println("WINNER: " + p2Name);
+                    }
+                     currentPlayer = 1; 
+                 }
+                 break;  
+             case "CLICK 4": 
+                 columnChosen = 4;
+                 if(currentPlayer == 1) { 
+                     grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player1Color);
+                     backend[BottomDrop(backend, columnChosen)][columnChosen] = 1;
+                     if (fourConnected(currentPlayer)){
+                        for (int i = 0; i < buttons.length; i++){
+                            buttons[i].setEnabled(false);
+                        }
+                        System.out.println("WINNER: " + p1Name);
+                    }
+                     currentPlayer = 2; 
+                 } else if (currentPlayer == 2) { 
+                     grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player2Color);
+                     backend[BottomDrop(backend, columnChosen)][columnChosen] = 2;
+                     if (fourConnected(currentPlayer)){
+                        for (int i = 0; i < buttons.length; i++){
+                            buttons[i].setEnabled(false);
+                        }
+                        System.out.println("WINNER: " + p2Name);
+                    }
+                     currentPlayer = 1; 
+             }
+                 break; 
+             case "CLICK 5": 
+                 columnChosen = 5;
+                 if(currentPlayer == 1) { 
+                     grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player1Color);
+                     backend[BottomDrop(backend, columnChosen)][columnChosen] = 1;
+                     if (fourConnected(currentPlayer)){
+                        for (int i = 0; i < buttons.length; i++){
+                            buttons[i].setEnabled(false);
+                        }
+                        System.out.println("WINNER: " + p1Name);
+                    }
+                     currentPlayer = 2; 
+                 } else if (currentPlayer == 2) { 
+                     grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player2Color);
+                     backend[BottomDrop(backend, columnChosen)][columnChosen] = 2;
+                     if (fourConnected(currentPlayer)){
+                        for (int i = 0; i < buttons.length; i++){
+                            buttons[i].setEnabled(false);
+                        }
+                        System.out.println("WINNER: " + p2Name);
+                    }
+                     currentPlayer = 1; 
+                 }
+                 break; 
+             case "CLICK 6": 
+                 columnChosen = 6;
+                 if(currentPlayer == 1) { 
+                     grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player1Color);
+                     backend[BottomDrop(backend, columnChosen)][columnChosen] = 1;
+                     if (fourConnected(currentPlayer)){
+                        for (int i = 0; i < buttons.length; i++){
+                            buttons[i].setEnabled(false);
+                        }
+                        System.out.println("WINNER: " + p1Name);
+                    }
+                     currentPlayer = 2; 
+                 } else if (currentPlayer == 2) { 
+                     grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player2Color);
+                     backend[BottomDrop(backend, columnChosen)][columnChosen] = 2;
+                     if (fourConnected(currentPlayer)){
+                        for (int i = 0; i < buttons.length; i++){
+                            buttons[i].setEnabled(false);
+                        }
+                        System.out.println("WINNER: " + p2Name);
+                    }
+                     currentPlayer = 1; 
+                 }
+                 break; 
+             default:
+                 break;
+            }
+         } catch (Exception ee){}
+     
 
         }
     
@@ -506,7 +586,50 @@ class Frame extends JFrame implements ActionListener {
         }
         return row;
     }
+    private boolean fourConnected(int player) {
+        // Check for 4 across
+        for (int r = 0; r < backend.length; r++) {
+            for (int c = 0; c < grid[0].length - 3; c++) {
+                if (backend[r][c] == player && backend[r][c+1] == player && backend[r][c+2] == player && backend[r][c+3] == player){
+                    return true;
+                }
+            }
+        }
 
+        // Check for 4 up and down
+        for (int r = 0; r < grid.length - 3; r++) {
+            for (int c = 0; c < grid[0].length; c++) {
+                if (backend[r][c] == player && backend[r+1][c] == player && backend[r+2][c] == player && backend[r+3][c] == player){
+                    return true;
+                }
+            }
+        }
+        // Check downward diagonal
+        for (int r = 0; r < grid.length - 3; r++) {
+            for (int c = 0; c < grid[0].length - 3; c++) {
+                if (backend[r][c] == player && backend[r+1][c+1] == player && backend[r+2][c+2] == player && backend[r+3][c+3] == player){
+                    return true;
+                }
+            }
+        }
 
-    
-}
+        // Check upward diagonal
+        for (int r = 3; r < grid.length; r++) {
+            for (int c = 0; c < grid[0].length - 3; c++) {
+                if (backend[r][c] == player && backend[r-1][c+1] == player && backend[r-2][c+2] == player && backend[r-3][c+3] == player){
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+    // private void isWinner(int player){
+    //     if (fourConnected(player)){
+    //         for (int i = 0; i < buttons.length; i++){
+    //             buttons[i].setEnabled(false);
+    //         }
+    //         System.out.println("WINNER: " + p1Name);
+    //     }
+    // }
+}   
