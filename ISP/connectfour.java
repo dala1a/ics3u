@@ -266,7 +266,7 @@ class Frame extends JFrame implements ActionListener {
         for (int r = 1; r < grid.length; r++) {
             for (int c = 0; c < grid[0].length; c++) {
                 box = new JButton();
-                box.setBackground(Color.BLACK);
+                box.setBackground(Color.WHITE);
                 box.setOpaque(true); //see color on mac
                 box.setEnabled(false);
                 gameboard.add(box);
@@ -291,7 +291,7 @@ class Frame extends JFrame implements ActionListener {
    
 
     public void actionPerformed(ActionEvent e) {
-        //System.out.println(currentPlayer);
+       
         //universal
         if (e.getActionCommand().equals("<")) {
             switchPanels(menuPanel);
@@ -342,7 +342,8 @@ class Frame extends JFrame implements ActionListener {
             }
         }
         
-        try { 
+        try {
+             System.out.println(currentPlayer);
             switch (e.getActionCommand()) {
              case "CLICK 0":
                  columnChosen = 0;
@@ -355,7 +356,8 @@ class Frame extends JFrame implements ActionListener {
                         }
                         System.out.println("WINNER: " + p1Name);
                     }
-                     currentPlayer = 2; 
+                     currentPlayer = 2;
+                     System.out.println(currentPlayer);
                  } else if (currentPlayer == 2) { 
                      grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player2Color);
                      backend[BottomDrop(backend, columnChosen)][columnChosen] = 2;
@@ -366,6 +368,7 @@ class Frame extends JFrame implements ActionListener {
                         System.out.println("WINNER: " + p2Name);
                     }
                      currentPlayer = 1; 
+                     System.out.println(currentPlayer);
                  }
                  break;
              case "CLICK 1": 
@@ -380,6 +383,7 @@ class Frame extends JFrame implements ActionListener {
                         System.out.println("WINNER: " + p1Name);
                     }
                      currentPlayer = 2; 
+                     System.out.println(currentPlayer);
                  } else if (currentPlayer == 2) { 
                      grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player2Color);
                      backend[BottomDrop(backend, columnChosen)][columnChosen] = 2;
@@ -586,36 +590,37 @@ class Frame extends JFrame implements ActionListener {
         }
         return row;
     }
+
     private boolean fourConnected(int player) {
-        // Check for 4 across
+        // horizontal
         for (int r = 0; r < backend.length; r++) {
-            for (int c = 0; c < grid[0].length - 3; c++) {
+            for (int c = 0; c < backend[0].length - 3; c++) {
                 if (backend[r][c] == player && backend[r][c+1] == player && backend[r][c+2] == player && backend[r][c+3] == player){
                     return true;
                 }
             }
         }
 
-        // Check for 4 up and down
-        for (int r = 0; r < grid.length - 3; r++) {
-            for (int c = 0; c < grid[0].length; c++) {
+        // vertical
+        for (int r = 0; r < backend.length - 3; r++) {
+            for (int c = 0; c < backend[0].length; c++) {
                 if (backend[r][c] == player && backend[r+1][c] == player && backend[r+2][c] == player && backend[r+3][c] == player){
                     return true;
                 }
             }
         }
-        // Check downward diagonal
-        for (int r = 0; r < grid.length - 3; r++) {
-            for (int c = 0; c < grid[0].length - 3; c++) {
+        // diagonal (down)
+        for (int r = 0; r < backend.length - 3; r++) {
+            for (int c = 0; c < backend[0].length - 3; c++) {
                 if (backend[r][c] == player && backend[r+1][c+1] == player && backend[r+2][c+2] == player && backend[r+3][c+3] == player){
                     return true;
                 }
             }
         }
 
-        // Check upward diagonal
-        for (int r = 3; r < grid.length; r++) {
-            for (int c = 0; c < grid[0].length - 3; c++) {
+        // diagonal (up)
+        for (int r = 3; r < backend.length; r++) {
+            for (int c = 0; c < backend[0].length - 3; c++) {
                 if (backend[r][c] == player && backend[r-1][c+1] == player && backend[r-2][c+2] == player && backend[r-3][c+3] == player){
                     return true;
                 }
@@ -624,12 +629,4 @@ class Frame extends JFrame implements ActionListener {
         
         return false;
     }
-    // private void isWinner(int player){
-    //     if (fourConnected(player)){
-    //         for (int i = 0; i < buttons.length; i++){
-    //             buttons[i].setEnabled(false);
-    //         }
-    //         System.out.println("WINNER: " + p1Name);
-    //     }
-    // }
 }   
