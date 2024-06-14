@@ -590,7 +590,7 @@ class Frame extends JFrame implements ActionListener {
         
         return false;
     }
-    
+
     public void winner(String name) {
     	if (fourConnected(currentPlayer)){
             for (int i = 0; i < buttons.length; i++){
