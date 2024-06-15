@@ -6,7 +6,7 @@ import java.io.*;
 public class connectfour {
     public static void main(String[] args) {
         Frame frame = new Frame();
-        frame.setSize(700, 1200); // Set initial window size
+        frame.setSize(700, 900); // Set initial window size
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setTitle("CONNECT 4");
@@ -41,7 +41,8 @@ class Frame extends JFrame implements ActionListener {
     private JComboBox<String> colorChoice2;
 
     //game panel vars
-    private JPanel gamePanel, gameboard;
+    private JPanel gamePanel, gameboard, gameTitlePanel;
+    private JLabel gameTitle, playerTurn;
     private JButton[][] grid = new JButton[7][7];
     private JButton box, returnButton3, restartButton;
     private JButton[] buttons = new JButton[7];
@@ -52,6 +53,8 @@ class Frame extends JFrame implements ActionListener {
     private Color player1Color; 
     private Color player2Color;   
     ImageIcon crown = new ImageIcon("crown.png");
+    String[] options = {"OK", "Add to Scoreboard"};
+    int choice;
 
     //Text size
     Font font1 = new Font("Display", Font.BOLD, 50);
@@ -134,7 +137,7 @@ class Frame extends JFrame implements ActionListener {
         text4.setFont(font2);
         text4.setHorizontalAlignment(JLabel.CENTER);
 
-        returnButton1 = new JButton("<");
+        returnButton1 = new JButton("⌂");
         returnButton1.setPreferredSize(new Dimension(50, 50));
         returnButton1.addActionListener(this);
 
@@ -176,7 +179,7 @@ class Frame extends JFrame implements ActionListener {
         
         settingsTitlePanel = new JPanel(new BorderLayout());
         returnPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        returnButton2 = new JButton("<");
+        returnButton2 = new JButton("⌂");
         returnButton2.setPreferredSize(new Dimension(50, 50));
         returnButton2.addActionListener(this);
         returnPanel.add(returnButton2);
@@ -254,38 +257,27 @@ class Frame extends JFrame implements ActionListener {
         gamePanel = new JPanel();
         gamePanel.setLayout(new BorderLayout());
         
-        settingsTitlePanel = new JPanel(new BorderLayout());
-        returnPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        returnButton3 = new JButton("<");
+        
+        returnButton3 = new JButton("⌂");
         returnButton3.setPreferredSize(new Dimension(50, 50));
         returnButton3.addActionListener(this);
-        restartButton = new JButton("Restart Game");
+        restartButton = new JButton("Restart");
         restartButton.setPreferredSize(new Dimension(100, 50));
         restartButton.addActionListener(this);
 
+        returnPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         returnPanel.add(returnButton3);
         returnPanel.add(restartButton);
 
-
-        settingsTitlePanel.add(returnPanel, BorderLayout.NORTH);
-        settingsTitle = new JLabel("CONNECT 4");
-        settingsTitle.setFont(font1);
-        settingsTitle.setHorizontalAlignment(JLabel.CENTER);
-        settingsTitlePanel.add(settingsTitle, BorderLayout.CENTER);
+        gameTitle = new JLabel("CONNECT 4");
+        gameTitle.setFont(font1);
+        gameTitle.setHorizontalAlignment(JLabel.CENTER);
         
-        text1 = new JLabel();
-        text1.setFont(font2);
-        text1.setHorizontalAlignment(JLabel.CENTER);
-        if (currentPlayer == 1) {
-            text1 = new JLabel("Player " + p1Name);
-            refresh();
-        }
-        else if (currentPlayer == 2) {
-            text1 = new JLabel("Player " + p2Name);
-            refresh();
-        }
-        //settingsTitlePanel.add(text1, BorderLayout.CENTER);
-      
+        playerTurn = new JLabel();
+        playerTurn.setFont(font2);
+        playerTurn.setHorizontalAlignment(JLabel.CENTER);
+        
+       
         gameboard = new JPanel(new GridLayout(7,7));
         gameboard.setSize(700,600);
         
@@ -318,8 +310,11 @@ class Frame extends JFrame implements ActionListener {
             }
         }
         
-        gamePanel.add(settingsTitlePanel, BorderLayout.NORTH);
-
+        gameTitlePanel = new JPanel(new BorderLayout());
+        gameTitlePanel.add(returnPanel, BorderLayout.NORTH);
+        gameTitlePanel.add(gameTitle, BorderLayout.CENTER);
+        gameTitlePanel.add(playerTurn, BorderLayout.SOUTH);
+        gamePanel.add(gameTitlePanel, BorderLayout.NORTH);
         gamePanel.add(gameboard, BorderLayout.CENTER);
 
         
@@ -331,12 +326,13 @@ class Frame extends JFrame implements ActionListener {
    
 
     public void actionPerformed(ActionEvent e) {
-       
         //universal
-        if (e.getActionCommand().equals("<")) {
+        if (e.getActionCommand().equals("⌂") ) {
             switchPanels(menuPanel);
         }
 
+      
+        
         //main menu
         if (e.getActionCommand().equals("How-To")) {
             switchPanels(howToPanel);
@@ -374,6 +370,9 @@ class Frame extends JFrame implements ActionListener {
             else if (p1Name.equalsIgnoreCase(p2Name) && !(p1Name.isBlank())){
                 JOptionPane.showMessageDialog(this, "Please choose different names from each other!", "ALERT", JOptionPane.ERROR_MESSAGE);
             }
+            else if (p1Name.length() > 10 || p2Name.length() > 10 ){
+                JOptionPane.showMessageDialog(this, "Please choose a name less than 10 characters!", "ALERT", JOptionPane.ERROR_MESSAGE);
+            }
             else{
                 player1Color = color1.getBackground(); 
                 player2Color = color2.getBackground();
@@ -382,119 +381,54 @@ class Frame extends JFrame implements ActionListener {
         }
         
         //Game panel
-        if (e.getActionCommand().equals("Restart Game")){
+        if (e.getActionCommand().equals("Restart")){
             restart();
         }
+
+        if (currentPlayer == 1){
+            playerTurn.setForeground(player1Color);
+            playerTurn.setText(p1Name+ "\'s turn");
+            refresh();
+            }
+        else if (currentPlayer == 2){
+            playerTurn.setForeground(player2Color);
+            playerTurn.setText(p2Name+ "\'s turn");
+            refresh();
+            }
         try {
-             System.out.println(currentPlayer);
             switch (e.getActionCommand()) {
              case "COLUMN 1":
                  columnChosen = 0;
-                 if(currentPlayer == 1) { 
-                     grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player1Color);
-                     backend[BottomDrop(backend, columnChosen)][columnChosen] = 1;
-                     winner(p1Name);
-                     currentPlayer = 2;
-                     System.out.println(currentPlayer);
-                 } else if (currentPlayer == 2) { 
-                     grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player2Color);
-                     backend[BottomDrop(backend, columnChosen)][columnChosen] = 2;
-                     winner(p2Name);
-                     currentPlayer = 1; 
-                     System.out.println(currentPlayer);
-                 }
+                 placePiece();
                  break;
              case "COLUMN 2": 
                  columnChosen = 1;
-                 if(currentPlayer == 1) { 
-                     grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player1Color);
-                     backend[BottomDrop(backend, columnChosen)][columnChosen] = 1;
-                     winner(p1Name);
-                     currentPlayer = 2; 
-                     System.out.println(currentPlayer);
-                 } else if (currentPlayer == 2) { 
-                     grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player2Color);
-                     backend[BottomDrop(backend, columnChosen)][columnChosen] = 2;
-                     winner(p2Name);
-                     currentPlayer = 1; 
-                 }
+                 placePiece();
                  break; 
              case "COLUMN 3": 
                  columnChosen = 2;
-                 if(currentPlayer == 1) { 
-                     grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player1Color);
-                     backend[BottomDrop(backend, columnChosen)][columnChosen] = 1;
-                     winner(p1Name);
-                     currentPlayer = 2; 
-                 } else if (currentPlayer == 2) { 
-                     grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player2Color);
-                     backend[BottomDrop(backend, columnChosen)][columnChosen] = 2;
-                     winner(p2Name);
-                     currentPlayer = 1; 
-                 }
+                 placePiece();
                  break; 
              case "COLUMN 4": 
                  columnChosen = 3;
-                 if(currentPlayer == 1) { 
-                     grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player1Color);
-                     backend[BottomDrop(backend, columnChosen)][columnChosen] = 1;
-                     winner(p1Name);
-                     currentPlayer = 2; 
-                 } else if (currentPlayer == 2) { 
-                     grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player2Color);
-                     backend[BottomDrop(backend, columnChosen)][columnChosen] = 2;
-                     winner(p2Name);
-                     currentPlayer = 1; 
-                 }
+                 placePiece();
                  break;  
              case "COLUMN 5": 
                  columnChosen = 4;
-                 if(currentPlayer == 1) { 
-                     grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player1Color);
-                     backend[BottomDrop(backend, columnChosen)][columnChosen] = 1;
-                     winner(p1Name);
-                     currentPlayer = 2; 
-                 } else if (currentPlayer == 2) { 
-                     grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player2Color);
-                     backend[BottomDrop(backend, columnChosen)][columnChosen] = 2;
-                     winner(p2Name);
-                     currentPlayer = 1; 
-             }
+                 placePiece();
                  break; 
              case "COLUMN 6": 
                  columnChosen = 5;
-                 if(currentPlayer == 1) { 
-                     grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player1Color);
-                     backend[BottomDrop(backend, columnChosen)][columnChosen] = 1;
-                     winner(p1Name);
-                     currentPlayer = 2; 
-                 } else if (currentPlayer == 2) { 
-                     grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player2Color);
-                     backend[BottomDrop(backend, columnChosen)][columnChosen] = 2;
-                     winner(p2Name);
-                     currentPlayer = 1; 
-                 }
+                 placePiece();
                  break; 
              case "COLUMN 7": 
                  columnChosen = 6;
-                 if(currentPlayer == 1) { 
-                     grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player1Color);
-                     backend[BottomDrop(backend, columnChosen)][columnChosen] = 1;
-                     winner(p1Name);
-                     currentPlayer = 2; 
-                 } else if (currentPlayer == 2) { 
-                     grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player2Color);
-                     backend[BottomDrop(backend, columnChosen)][columnChosen] = 2;
-                     winner(p2Name);
-                     currentPlayer = 1; 
-                 }
+                 placePiece();
                  break; 
              default:
                  break;
             }
          } catch (Exception ee){}
-     
-
         }
     
     public void pickColor(String color, JPanel colorbox){
@@ -537,17 +471,6 @@ class Frame extends JFrame implements ActionListener {
         this.getContentPane().add(newPanel); 
         refresh();
         TheOneAndOnlyMainPanel = newPanel; // Updating the main panel to whatever u are changing it to XD kekw uwu
-    }
-
-    public void printOutArray() { 
-        System.out.println("===========================");
-        for (int i = 0; i<backend.length; i++) {
-            for (int j = 0; j<backend[i].length; j++) {
-                System.out.print(backend[i][j]);
-            }
-            System.out.println();
-        }  
-        System.out.println("===========================");  
     }
 
     public int BottomDrop(int[][] g, int col) {
@@ -606,10 +529,28 @@ class Frame extends JFrame implements ActionListener {
             for (int i = 0; i < buttons.length; i++){
                 buttons[i].setEnabled(false);
             }
-            JOptionPane.showMessageDialog(this, name + " WON!", "Game End", JOptionPane.INFORMATION_MESSAGE, crown);
+           choice = JOptionPane.showOptionDialog(this, name + " WON!", "Game End", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, crown, options, options[0]);
+            System.out.println(choice);
         }
     }
-
+    public static boolean isTie(int[][] array, int key) {
+		for (int r = 0; r < array.length; r++) {
+            for (int c = 0; c < array[r].length; c++){
+                if (array[r][c] == key) {
+                    return false; 
+                }
+            }
+		}
+		return true; 
+	}
+    public void tie(){
+        if (isTie(backend, 0)){
+            JOptionPane.showMessageDialog(this, "Tied", "ALERT", JOptionPane.WARNING_MESSAGE); 
+            for (int i = 0; i < buttons.length; i++){
+                buttons[i].setEnabled(false);
+            }
+        }
+    }
     public void restart(){
         for (int r = 0; r < backend.length; r++) { 
             for(int c = 0; c < backend[r].length; c++) { 
@@ -627,5 +568,22 @@ class Frame extends JFrame implements ActionListener {
             buttons[i].setEnabled(true);
         }
         refresh();
+    }
+    public void placePiece(){
+        if(currentPlayer == 1) { 
+            grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player1Color);
+            backend[BottomDrop(backend, columnChosen)][columnChosen] = 1;
+            winner(p1Name);
+            tie();
+            currentPlayer = 2;
+            System.out.println(currentPlayer);
+        } else if (currentPlayer == 2) { 
+            grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player2Color);
+            backend[BottomDrop(backend, columnChosen)][columnChosen] = 2;
+            tie();
+            winner(p2Name);
+            currentPlayer = 1; 
+            System.out.println(currentPlayer);
+        }
     }
 }   
