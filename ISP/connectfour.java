@@ -43,7 +43,7 @@ class Frame extends JFrame implements ActionListener {
     //game panel vars
     private JPanel gamePanel, gameboard;
     private JButton[][] grid = new JButton[7][7];
-    private JButton box, returnButton3;
+    private JButton box, returnButton3, restartButton;
     private JButton[] buttons = new JButton[7];
     private int[][] backend = new int[6][7]; 
     private int columnChosen = 0; 
@@ -259,7 +259,13 @@ class Frame extends JFrame implements ActionListener {
         returnButton3 = new JButton("<");
         returnButton3.setPreferredSize(new Dimension(50, 50));
         returnButton3.addActionListener(this);
+        restartButton = new JButton("Restart Game");
+        restartButton.setPreferredSize(new Dimension(100, 50));
+        restartButton.addActionListener(this);
+
         returnPanel.add(returnButton3);
+        returnPanel.add(restartButton);
+
 
         settingsTitlePanel.add(returnPanel, BorderLayout.NORTH);
         settingsTitle = new JLabel("CONNECT 4");
@@ -375,6 +381,10 @@ class Frame extends JFrame implements ActionListener {
             }
         }
         
+        //Game panel
+        if (e.getActionCommand().equals("Restart Game")){
+            restart();
+        }
         try {
              System.out.println(currentPlayer);
             switch (e.getActionCommand()) {
@@ -601,6 +611,21 @@ class Frame extends JFrame implements ActionListener {
     }
 
     public void restart(){
-        
+        for (int r = 0; r < backend.length; r++) { 
+            for(int c = 0; c < backend[r].length; c++) { 
+                backend[r][c] = 0; 
+            }
+        }
+
+        for (int r = 1; r < grid.length; r++) {
+            for (int c = 0; c < grid[0].length; c++) {
+                grid[r][c].setBackground(Color.WHITE);
+            }
+        }
+
+        for (int i = 0; i < buttons.length; i++){
+            buttons[i].setEnabled(true);
+        }
+        refresh();
     }
 }   
