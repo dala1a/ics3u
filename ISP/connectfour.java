@@ -276,6 +276,7 @@ class Frame extends JFrame implements ActionListener {
         playerTurn = new JLabel();
         playerTurn.setFont(font2);
         playerTurn.setHorizontalAlignment(JLabel.CENTER);
+        playerTurn.setText("Choose a column!");
         
        
         gameboard = new JPanel(new GridLayout(7,7));
@@ -330,8 +331,6 @@ class Frame extends JFrame implements ActionListener {
         if (e.getActionCommand().equals("⌂") ) {
             switchPanels(menuPanel);
         }
-
-      
         
         //main menu
         if (e.getActionCommand().equals("How-To")) {
@@ -385,16 +384,6 @@ class Frame extends JFrame implements ActionListener {
             restart();
         }
 
-        if (currentPlayer == 1){
-            playerTurn.setForeground(player1Color);
-            playerTurn.setText(p1Name+ "\'s turn");
-            refresh();
-            }
-        else if (currentPlayer == 2){
-            playerTurn.setForeground(player2Color);
-            playerTurn.setText(p2Name+ "\'s turn");
-            refresh();
-            }
         try {
             switch (e.getActionCommand()) {
              case "COLUMN 1":
@@ -530,7 +519,7 @@ class Frame extends JFrame implements ActionListener {
                 buttons[i].setEnabled(false);
             }
            choice = JOptionPane.showOptionDialog(this, name + " WON!", "Game End", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, crown, options, options[0]);
-            System.out.println(choice);
+           playerTurn.setText("Game End");
         }
     }
     public static boolean isTie(int[][] array, int key) {
@@ -549,6 +538,7 @@ class Frame extends JFrame implements ActionListener {
             for (int i = 0; i < buttons.length; i++){
                 buttons[i].setEnabled(false);
             }
+            playerTurn.setText("Game End");
         }
     }
     public void restart(){
@@ -567,15 +557,18 @@ class Frame extends JFrame implements ActionListener {
         for (int i = 0; i < buttons.length; i++){
             buttons[i].setEnabled(true);
         }
+        playerTurn.setText("Choose a column!");
         refresh();
+        currentPlayer = 2;
     }
-    public void placePiece(){
+    public void placePiece() {
         if(currentPlayer == 1) { 
             grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player1Color);
             backend[BottomDrop(backend, columnChosen)][columnChosen] = 1;
             winner(p1Name);
             tie();
             currentPlayer = 2;
+            playerTurn.setText(p2Name+ "\'s Turn");
             System.out.println(currentPlayer);
         } else if (currentPlayer == 2) { 
             grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player2Color);
@@ -583,7 +576,9 @@ class Frame extends JFrame implements ActionListener {
             tie();
             winner(p2Name);
             currentPlayer = 1; 
+            playerTurn.setText(p1Name+ "\'s Turn");
             System.out.println(currentPlayer);
         }
     }
+    
 }   
