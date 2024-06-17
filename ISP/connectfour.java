@@ -56,6 +56,11 @@ class Frame extends JFrame implements ActionListener {
     String[] options = {"OK", "Add to Scoreboard"};
     int choice;
 
+    //scoreboard panel vars
+    private JPanel scoreboard;
+    private JLabel scoreboardTitle;
+    private JButton returnButton4;
+
     //Text size
     Font font1 = new Font("Display", Font.BOLD, 50);
     Font font2 = new Font("Display", Font.BOLD, 30);
@@ -318,7 +323,31 @@ class Frame extends JFrame implements ActionListener {
         gamePanel.add(gameTitlePanel, BorderLayout.NORTH);
         gamePanel.add(gameboard, BorderLayout.CENTER);
 
+        //scoreboard panel ============================================================================================================================================================
         
+        scoreboardTitle = new JLabel("How To Play CONNECT 4");
+        scoreboardTitle.setFont(font1);
+        scoreboardTitle.setHorizontalAlignment(JLabel.CENTER);
+
+        returnButton4 = new JButton("⌂");
+        returnButton4.setPreferredSize(new Dimension(50, 50));
+        returnButton4.addActionListener(this);
+
+
+        //establish how to panel
+        scoreboard = new JPanel();
+        scoreboard.setLayout(new GridLayout(10,2));
+        
+        //return button
+        returnPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        returnPanel.add(returnButton4);
+        
+        // Adding components with proper sizing
+        scoreboard.add(returnPanel);
+        scoreboard.add(new JPanel());
+        
+
+        //establish  panels =======================================================
         this.add(menuPanel); 
         TheOneAndOnlyMainPanel = menuPanel; // Making a variable to store what the main panel currently is. 
         setVisible(true);
