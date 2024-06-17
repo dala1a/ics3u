@@ -337,7 +337,7 @@ class Frame extends JFrame implements ActionListener {
         //establish how to panel
         scoreboard = new JPanel();
         scoreboard.setLayout(new GridLayout(10,2));
-        
+
         //return button
         returnPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         returnPanel.add(returnButton4);
@@ -562,7 +562,7 @@ class Frame extends JFrame implements ActionListener {
 		return true; 
 	}
     public void tie(){
-        if (isTie(backend, 0)){
+        if (isTie(backend, 0) && !fourConnected(currentPlayer)){
             JOptionPane.showMessageDialog(this, "Tied", "ALERT", JOptionPane.WARNING_MESSAGE); 
             for (int i = 0; i < buttons.length; i++){
                 buttons[i].setEnabled(false);
