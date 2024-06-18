@@ -631,5 +631,22 @@ class Frame extends JFrame implements ActionListener {
             System.out.println(currentPlayer);
         }
     }
-    
+    public static String[] readIn(String filename, String[] data) {
+		try {
+			BufferedReader FileInputPointer = new BufferedReader(new InputStreamReader(new FileInputStream(filename)));
+			int i = 0; // index of the array
+			while (FileInputPointer.ready() == true) {
+				data[i] = FileInputPointer.readLine().toString(); 
+				i += 1;
+			}
+			FileInputPointer.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("Error - this file does not exist");
+		} catch (IOException e) {
+			System.out.println("Error" + e.toString());
+		}
+		return data;
+	}
+
+    //public void
 }   
