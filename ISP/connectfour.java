@@ -57,7 +57,7 @@ class Frame extends JFrame implements ActionListener {
     int choice;
 
     //scoreboard panel vars
-    private JPanel scoreboard;
+    private JPanel scoreboard, scoreboardTitlePanel;
     private JLabel scoreboardTitle;
     private JButton returnButton4;
 
@@ -325,27 +325,33 @@ class Frame extends JFrame implements ActionListener {
 
         //scoreboard panel ============================================================================================================================================================
         
-        scoreboardTitle = new JLabel("How To Play CONNECT 4");
+        scoreboardTitle = new JLabel("Scoreboard");
         scoreboardTitle.setFont(font1);
         scoreboardTitle.setHorizontalAlignment(JLabel.CENTER);
 
+        //return button
         returnButton4 = new JButton("⌂");
         returnButton4.setPreferredSize(new Dimension(50, 50));
         returnButton4.addActionListener(this);
-
-
-        //establish how to panel
-        scoreboard = new JPanel();
-        scoreboard.setLayout(new GridLayout(10,2));
-
-        //return button
         returnPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         returnPanel.add(returnButton4);
-        
-        // Adding components with proper sizing
-        scoreboard.add(returnPanel);
-        scoreboard.add(new JPanel());
-        
+
+        //establish scoreboard 
+        scoreboard = new JPanel();
+        scoreboard.setLayout(new GridLayout(1,3));
+
+        //Adding components to scoreboard
+        scoreboard.add(new JLabel("Rank 1"));
+        scoreboard.add(new JLabel("Bippy"));
+        scoreboard.add(new JLabel("4 wins"));
+
+        //adding components to panel
+        scoreboardTitlePanel = new JPanel(new BorderLayout());
+        scoreboardTitlePanel.add(returnPanel, BorderLayout.NORTH);
+        scoreboardTitlePanel.add(scoreboardTitle, BorderLayout.CENTER);
+        scoreboardPanel = new JPanel(new BorderLayout());
+        scoreboardPanel.add(scoreboardTitlePanel, BorderLayout.NORTH);
+        scoreboardPanel.add(scoreboard, BorderLayout.CENTER);
 
         //establish  panels =======================================================
         this.add(menuPanel); 
@@ -356,9 +362,26 @@ class Frame extends JFrame implements ActionListener {
    
 
     public void actionPerformed(ActionEvent e) {
+        //Start
+        p1Name = player1.getText().trim(); 
+        p2Name = player2.getText().trim(); 
+        String p1Color = (String)colorChoice1.getSelectedItem();
+        String p2Color = (String)colorChoice2.getSelectedItem();
+        
         //universal
         if (e.getActionCommand().equals("⌂") ) {
             switchPanels(menuPanel);
+            p1Name = "";
+            p1Color = "CHOOSE";
+            color1.setBackground(Color.WHITE);
+            player1.setText("");
+            colorChoice1.setSelectedItem("CHOOSE");
+            p2Name = "";
+            p2Color = "CHOOSE";
+            //color2.setBackground(Color.WHITE);
+            player2.setText("");
+            colorChoice2.setSelectedItem("CHOOSE");
+            restart();
         }
         
         //main menu
@@ -369,11 +392,6 @@ class Frame extends JFrame implements ActionListener {
         if (e.getActionCommand().equals("Start")) {
             switchPanels(playerSettings);
         }
-        //Start
-        p1Name = player1.getText().trim(); 
-        p2Name = player2.getText().trim(); 
-        String p1Color = (String)colorChoice1.getSelectedItem();
-        String p2Color = (String)colorChoice2.getSelectedItem();
         
         // Start- player settings panel
         pickColor(p1Color, color1);
@@ -447,7 +465,11 @@ class Frame extends JFrame implements ActionListener {
                  break;
             }
          } catch (Exception ee){}
+
+        if (e.getActionCommand().equals("Scoreboard")) {
+            switchPanels(scoreboardPanel);
         }
+    }
     
     public void pickColor(String color, JPanel colorbox){
         switch(color){
@@ -588,7 +610,7 @@ class Frame extends JFrame implements ActionListener {
         }
         playerTurn.setText("Choose a column!");
         refresh();
-        currentPlayer = 2;
+        currentPlayer = 1;
     }
     public void placePiece() {
         if(currentPlayer == 1) { 
