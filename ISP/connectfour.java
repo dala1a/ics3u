@@ -60,7 +60,11 @@ class Frame extends JFrame implements ActionListener {
     private JPanel scoreboard, scoreboardTitlePanel;
     private JLabel scoreboardTitle;
     private JButton returnButton4;
-
+    String file = "scoreboard.txt";
+    private JButton[][] score = new JButton[10][3];
+    private JButton[] labels = new JButton[3];
+    private String[] names = new String[CheckSize(file)/2];
+    private int[] scores = new int[CheckSize(file)/2];
     //Text size
     Font font1 = new Font("Display", Font.BOLD, 50);
     Font font2 = new Font("Display", Font.BOLD, 30);
@@ -338,13 +342,47 @@ class Frame extends JFrame implements ActionListener {
 
         //establish scoreboard 
         scoreboard = new JPanel();
-        scoreboard.setLayout(new GridLayout(1,3));
+        scoreboard.setLayout(new GridLayout(12,3));
 
         //Adding components to scoreboard
-        scoreboard.add(new JLabel("Rank 1"));
-        scoreboard.add(new JLabel("Bippy"));
-        scoreboard.add(new JLabel("4 wins"));
+            JButton label1 = new JButton("Rank");
+            label1.setEnabled(false);
+            labels[0] = label1;
 
+            JButton label2 = new JButton("User");
+            label2.setEnabled(false);
+            labels[0] = label1;
+ 
+            JButton label3 = new JButton("Game(s) Won");
+            label3.setEnabled(false);
+            labels[0] = label1;
+
+
+            scoreboard.add(label1);
+            scoreboard.add(label2);
+            scoreboard.add(label3);
+            scoreboard.add(new JPanel());
+            scoreboard.add(new JPanel());
+            scoreboard.add(new JPanel());
+
+            for (int i = 0; i < score.length; i++){
+                JButton temp = new JButton("" + (i+1));
+                temp.setOpaque(true); //see color on mac
+                scoreboard.add(temp);
+                score[i][0] = temp;
+    
+                temp = new JButton();
+                temp.setOpaque(true); //see color on mac
+                scoreboard.add(temp);
+                score[i][1] = temp;
+    
+                temp = new JButton();
+                temp.setOpaque(true); //see color on mac
+                scoreboard.add(temp);
+                score[i][2] = temp;
+            }
+        
+     
         //adding components to panel
         scoreboardTitlePanel = new JPanel(new BorderLayout());
         scoreboardTitlePanel.add(returnPanel, BorderLayout.NORTH);
@@ -353,10 +391,15 @@ class Frame extends JFrame implements ActionListener {
         scoreboardPanel.add(scoreboardTitlePanel, BorderLayout.NORTH);
         scoreboardPanel.add(scoreboard, BorderLayout.CENTER);
 
+
+        
+
         //establish  panels =======================================================
         this.add(menuPanel); 
         TheOneAndOnlyMainPanel = menuPanel; // Making a variable to store what the main panel currently is. 
         setVisible(true);
+        readInName(file, names);
+        readInScores(file, scores);
     }
 
    
@@ -367,7 +410,7 @@ class Frame extends JFrame implements ActionListener {
         p2Name = player2.getText().trim(); 
         String p1Color = (String)colorChoice1.getSelectedItem();
         String p2Color = (String)colorChoice2.getSelectedItem();
-        
+
         //universal
         if (e.getActionCommand().equals("⌂") ) {
             switchPanels(menuPanel);
@@ -392,7 +435,22 @@ class Frame extends JFrame implements ActionListener {
         if (e.getActionCommand().equals("Start")) {
             switchPanels(playerSettings);
         }
-        
+
+        if (e.getActionCommand().equals("Scoreboard")) {
+            switchPanels(scoreboardPanel);
+            reorderFile(file, scores, names);
+            readInName(file, names);
+            readInScores(file, scores);
+            for (int r = 0; r < score.length; r++){
+                for (int c = 1; c < score[r].length; c++){
+                    //if (names[r] != null && scores[r] != 0){
+                        score[r][c].setText(names[r]);
+                        score[r][2].setText(""+ scores[r]);
+                   // }
+                    
+                }
+            }
+        }
         // Start- player settings panel
         pickColor(p1Color, color1);
         pickColor(p2Color, color2);
@@ -403,8 +461,6 @@ class Frame extends JFrame implements ActionListener {
             color2.setBackground(Color.WHITE);
             colorChoice2.setSelectedItem("CHOOSE");
         }
-       
-        
         if (e.getActionCommand().equals("PLAY")) {
             if (p1Name.isBlank() || p2Name.isBlank()){
                 JOptionPane.showMessageDialog(this, "Enter player name(s)", "ALERT", JOptionPane.ERROR_MESSAGE);
@@ -465,12 +521,12 @@ class Frame extends JFrame implements ActionListener {
                  break;
             }
          } catch (Exception ee){}
-
-        if (e.getActionCommand().equals("Scoreboard")) {
-            switchPanels(scoreboardPanel);
-        }
     }
-    
+    public static void printOut(int[] TheArray, String[] array) {
+		for (int i = 0; i < TheArray.length; i++) {
+			System.out.println(array[i] + " has a mark of " + TheArray[i] + "%");
+		}
+	}
     public void pickColor(String color, JPanel colorbox){
         switch(color){
             case "CHOOSE":
@@ -571,6 +627,18 @@ class Frame extends JFrame implements ActionListener {
             }
            choice = JOptionPane.showOptionDialog(this, name + " WON!", "Game End", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, crown, options, options[0]);
            playerTurn.setText("Game End");
+           for (int i = 0; i < names.length; i++){
+            if (names[i].equalsIgnoreCase(p1Name)){
+                scores[i] += 1;
+            }
+            else{
+                try (FileWriter writer = new FileWriter("scoreboard.txt", true)) {
+                    writer.write("1" + "\n" + p1Name);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                }
+            }
         }
     }
     public static boolean isTie(int[][] array, int key) {
@@ -631,13 +699,37 @@ class Frame extends JFrame implements ActionListener {
             System.out.println(currentPlayer);
         }
     }
-    public static String[] readIn(String filename, String[] data) {
+    
+    public static int CheckSize(String filename) {
+		int NumberOfItems = 0;
+		try {
+			BufferedReader FileInputPointer = new BufferedReader(new InputStreamReader(new FileInputStream(filename)));
+			while (FileInputPointer.ready() == true) {
+				FileInputPointer.readLine(); // Advances the pointer
+				NumberOfItems++;
+			}
+			FileInputPointer.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("Error - this file does not exist");
+			return -1; 
+		} catch (IOException e) {
+			System.out.println("Error" + e.toString());
+			return -1;
+		}
+
+		return NumberOfItems;
+	}
+
+    public static String[] readInName(String filename, String[] names) {
+		String dataItem;
 		try {
 			BufferedReader FileInputPointer = new BufferedReader(new InputStreamReader(new FileInputStream(filename)));
 			int i = 0; // index of the array
 			while (FileInputPointer.ready() == true) {
-				data[i] = FileInputPointer.readLine().toString(); 
-				i += 1;
+				dataItem = FileInputPointer.readLine(); // filter out the score - do nothing - just advance the file pointer
+				dataItem = FileInputPointer.readLine(); // name
+				names[i] = dataItem;
+				i++;
 			}
 			FileInputPointer.close();
 		} catch (FileNotFoundException e) {
@@ -645,8 +737,64 @@ class Frame extends JFrame implements ActionListener {
 		} catch (IOException e) {
 			System.out.println("Error" + e.toString());
 		}
-		return data;
+		return names;
 	}
 
-    //public void
+    public static int[] readInScores(String filename, int[] scores) {
+        String Holder;
+		try {
+			BufferedReader FileInputPointer = new BufferedReader(new InputStreamReader(new FileInputStream(filename)));
+			int i = 0; // index of the array
+			while (FileInputPointer.ready() == true) {
+				Holder = FileInputPointer.readLine().toString(); // score number
+				scores[i] = Integer.parseInt(Holder);
+				i += 1;
+				Holder = FileInputPointer.readLine().toString(); // Student name filter it out just advance the file pointer
+			}
+			FileInputPointer.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("Error - this file does not exist");
+		} catch (IOException e) {
+			System.out.println("Error" + e.toString());
+		}
+		return scores;
+	}
+
+    public static void reorderFile(String filename, int[] scores, String[] names){
+        selectionSortDES(scores, names);
+        writeOut(filename, scores, names);
+    }
+
+    public static void selectionSortDES(int[] scores, String[] names) {
+		for (int i = scores.length - 1; i > 0; i--) {
+			int maxLoc = 0; // Location of largest item seen so far.
+			for (int j = 1; j <= i; j++) {
+				if (scores[j] < scores[maxLoc]) {
+					maxLoc = j;
+				}
+			}
+			int tempS = scores[maxLoc];     // Swap largest item with intArray[i].
+            String tempN = names[maxLoc];   // Do same thing for names array
+			scores[maxLoc] = scores[i];
+            names[maxLoc] = names[i];       // Do same thing for names array
+			scores[i] = tempS;
+            names[i] = tempN;               // Do same thing for names array
+		} // end of for loop
+	} // end selectSort
+
+
+    public static void writeOut(String filename, int[] scores, String[] names) {
+		try {
+			PrintWriter outputfile = new PrintWriter(new BufferedWriter(new FileWriter(filename)));
+			for (int i = 0; i < names.length; i++) {
+				outputfile.println(scores[i]);
+				outputfile.println(names[i]);
+			}
+			outputfile.close();
+		} catch (Exception e) {
+			System.out.println("My Application Error: " + e.toString());
+		}
+
+	}
+    
 }   
