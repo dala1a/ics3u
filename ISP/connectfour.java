@@ -2,6 +2,8 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.*;
+import java.util.ArrayList;
+
 
 public class connectfour {
     public static void main(String[] args) {
@@ -63,8 +65,9 @@ class Frame extends JFrame implements ActionListener {
     String file = "scoreboard.txt";
     private JButton[][] score = new JButton[10][3];
     private JButton[] labels = new JButton[3];
-    private String[] names = new String[CheckSize(file)/2];
-    private int[] scores = new int[CheckSize(file)/2];
+    private ArrayList<String> names = new ArrayList<>();
+    private ArrayList<Integer> scores = new ArrayList<>();
+
     //Text size
     Font font1 = new Font("Display", Font.BOLD, 50);
     Font font2 = new Font("Display", Font.BOLD, 30);
@@ -438,17 +441,16 @@ class Frame extends JFrame implements ActionListener {
 
         if (e.getActionCommand().equals("Scoreboard")) {
             switchPanels(scoreboardPanel);
-            reorderFile(file, scores, names);
+            names.clear();
+            scores.clear();
+            
             readInName(file, names);
             readInScores(file, scores);
-            for (int r = 0; r < score.length; r++){
-                for (int c = 1; c < score[r].length; c++){
-                    //if (names[r] != null && scores[r] != 0){
-                        score[r][c].setText(names[r]);
-                        score[r][2].setText(""+ scores[r]);
-                   // }
-                    
-                }
+            reorderFile(file, scores, names);
+
+            for (int r = 0; r < names.size(); r++) {
+                score[r][1].setText(names.get(r));
+                score[r][2].setText("" + scores.get(r));
             }
         }
         // Start- player settings panel
@@ -627,18 +629,7 @@ class Frame extends JFrame implements ActionListener {
             }
            choice = JOptionPane.showOptionDialog(this, name + " WON!", "Game End", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, crown, options, options[0]);
            playerTurn.setText("Game End");
-           for (int i = 0; i < names.length; i++){
-            if (names[i].equalsIgnoreCase(p1Name)){
-                scores[i] += 1;
-            }
-            else{
-                try (FileWriter writer = new FileWriter("scoreboard.txt", true)) {
-                    writer.write("1" + "\n" + p1Name);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                }
-            }
+           addToScoreboard(currentPlayer);
         }
     }
     public static boolean isTie(int[][] array, int key) {
@@ -720,16 +711,14 @@ class Frame extends JFrame implements ActionListener {
 		return NumberOfItems;
 	}
 
-    public static String[] readInName(String filename, String[] names) {
+    public static ArrayList<String> readInName(String filename, ArrayList<String> names) {
 		String dataItem;
 		try {
 			BufferedReader FileInputPointer = new BufferedReader(new InputStreamReader(new FileInputStream(filename)));
-			int i = 0; // index of the array
 			while (FileInputPointer.ready() == true) {
 				dataItem = FileInputPointer.readLine(); // filter out the score - do nothing - just advance the file pointer
 				dataItem = FileInputPointer.readLine(); // name
-				names[i] = dataItem;
-				i++;
+				names.add(dataItem);
 			}
 			FileInputPointer.close();
 		} catch (FileNotFoundException e) {
@@ -740,15 +729,13 @@ class Frame extends JFrame implements ActionListener {
 		return names;
 	}
 
-    public static int[] readInScores(String filename, int[] scores) {
+    public static ArrayList<Integer>  readInScores(String filename, ArrayList<Integer> scores) {
         String Holder;
 		try {
 			BufferedReader FileInputPointer = new BufferedReader(new InputStreamReader(new FileInputStream(filename)));
-			int i = 0; // index of the array
 			while (FileInputPointer.ready() == true) {
 				Holder = FileInputPointer.readLine().toString(); // score number
-				scores[i] = Integer.parseInt(Holder);
-				i += 1;
+				scores.add(Integer.parseInt(Holder));
 				Holder = FileInputPointer.readLine().toString(); // Student name filter it out just advance the file pointer
 			}
 			FileInputPointer.close();
@@ -760,41 +747,81 @@ class Frame extends JFrame implements ActionListener {
 		return scores;
 	}
 
-    public static void reorderFile(String filename, int[] scores, String[] names){
+    public static void reorderFile(String filename, ArrayList<Integer> scores, ArrayList<String> names){
         selectionSortDES(scores, names);
         writeOut(filename, scores, names);
     }
 
-    public static void selectionSortDES(int[] scores, String[] names) {
-		for (int i = scores.length - 1; i > 0; i--) {
-			int maxLoc = 0; // Location of largest item seen so far.
-			for (int j = 1; j <= i; j++) {
-				if (scores[j] < scores[maxLoc]) {
-					maxLoc = j;
-				}
-			}
-			int tempS = scores[maxLoc];     // Swap largest item with intArray[i].
-            String tempN = names[maxLoc];   // Do same thing for names array
-			scores[maxLoc] = scores[i];
-            names[maxLoc] = names[i];       // Do same thing for names array
-			scores[i] = tempS;
-            names[i] = tempN;               // Do same thing for names array
-		} // end of for loop
-	} // end selectSort
+    public static void selectionSortDES(ArrayList<Integer> scores, ArrayList<String> names) {
+        for (int i = scores.size() - 1; i > 0; i--) {
+            int maxLoc = 0; // Location of largest item seen so far.
+            for (int j = 1; j <= i; j++) {
+                if (scores.get(j) < scores.get(maxLoc)) {
+                    maxLoc = j;
+                }
+            }
+            int tempS = scores.get(maxLoc); // Swap largest item with intArray[i].
+            String tempN = names.get(maxLoc); // Do same thing for names array
+            scores.set(maxLoc, scores.get(i));
+            names.set(maxLoc, names.get(i));
+            scores.set(i, tempS);
+            names.set(i, tempN);
+        } // end of for loop
+    } // end selectSort
 
 
-    public static void writeOut(String filename, int[] scores, String[] names) {
-		try {
-			PrintWriter outputfile = new PrintWriter(new BufferedWriter(new FileWriter(filename)));
-			for (int i = 0; i < names.length; i++) {
-				outputfile.println(scores[i]);
-				outputfile.println(names[i]);
-			}
-			outputfile.close();
-		} catch (Exception e) {
-			System.out.println("My Application Error: " + e.toString());
-		}
+    public static void writeOut(String filename, ArrayList<Integer> scores, ArrayList<String> names) {
+        try {
+            PrintWriter outputfile = new PrintWriter(new BufferedWriter(new FileWriter(filename)));
+            for (int i = 0; i < names.size(); i++) {
+                outputfile.println(scores.get(i));
+                outputfile.println(names.get(i));
+            }
+            outputfile.close();
+        } catch (Exception e) {
+            System.out.println("My Application Error: " + e.toString());
+        }
+    }
 
-	}
-    
+    public void addToScoreboard(int player) {
+        if (player == 1) {
+            boolean p1Found = false;
+            for (int i = 0; i < names.size(); i++) {
+                if (names.get(i).equalsIgnoreCase(p1Name)) {
+                    scores.set(i, scores.get(i) + 1);
+                    writeOut(file, scores, names);
+                    p1Found = true;
+                    break;
+                }
+            }
+            if (!p1Found) {
+                names.add(p1Name);
+                scores.add(1);
+                try (FileWriter writer = new FileWriter("scoreboard.txt", true)) {
+                    writer.write("1" + "\n" + p1Name + "\n");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else if (player == 2) {
+            boolean p2Found = false;
+            for (int i = 0; i < names.size(); i++) {
+                if (names.get(i).equalsIgnoreCase(p2Name)) {
+                    scores.set(i, scores.get(i) + 1);
+                    writeOut(file, scores, names);
+                    p2Found = true;
+                    break;
+                }
+            }
+            if (!p2Found) {
+                names.add(p2Name);
+                scores.add(1);
+                try (FileWriter writer = new FileWriter("scoreboard.txt", true)) {
+                    writer.write("1" + "\n" + p2Name + "\n");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }   
