@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class connectfour {
     public static void main(String[] args) {
         Frame game = new Frame();
-        ImageIcon logo = new ImageIcon("four.png");
+        ImageIcon logo = new ImageIcon("Logo.png");
         game.setIconImage(logo.getImage());
         game.setSize(700, 900); // Set initial window size
         game.setResizable(false);
