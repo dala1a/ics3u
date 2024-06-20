@@ -7,13 +7,14 @@ import java.util.ArrayList;
 
 public class connectfour {
     public static void main(String[] args) {
-        Frame frame = new Frame();
-        frame.setSize(700, 900); // Set initial window size
-        frame.setResizable(false);
-        frame.setLocationRelativeTo(null);
-        frame.setTitle("CONNECT 4");
-        //change logo
-        frame.addWindowListener(new WindowAdapter() {
+        Frame game = new Frame();
+        ImageIcon logo = new ImageIcon("four.png");
+        game.setIconImage(logo.getImage());
+        game.setSize(700, 900); // Set initial window size
+        game.setResizable(false);
+        game.setLocationRelativeTo(null);
+        game.setTitle("CONNECT 4");
+        game.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 System.exit(0);
             }
@@ -55,8 +56,9 @@ class Frame extends JFrame implements ActionListener {
     private Color player1Color; 
     private Color player2Color;   
     ImageIcon crown = new ImageIcon("crown.png");
-    String[] options = {"OK", "Add to Scoreboard"};
+    private String[] options = {"OK", "Go to Scoreboard"};
     int choice;
+    private boolean switchScoreboard = false;
 
     //scoreboard panel vars
     private JPanel scoreboard, scoreboardTitlePanel;
@@ -439,7 +441,7 @@ class Frame extends JFrame implements ActionListener {
             switchPanels(playerSettings);
         }
 
-        if (e.getActionCommand().equals("Scoreboard")) {
+        if (e.getActionCommand().equals("Scoreboard") || switchScoreboard == true) {
             switchPanels(scoreboardPanel);
             names.clear();
             scores.clear();
@@ -483,7 +485,6 @@ class Frame extends JFrame implements ActionListener {
                 switchPanels(gamePanel);
             }
         }
-        
         //Game panel
         if (e.getActionCommand().equals("Restart")){
             restart();
@@ -524,11 +525,6 @@ class Frame extends JFrame implements ActionListener {
             }
          } catch (Exception ee){}
     }
-    public static void printOut(int[] TheArray, String[] array) {
-		for (int i = 0; i < TheArray.length; i++) {
-			System.out.println(array[i] + " has a mark of " + TheArray[i] + "%");
-		}
-	}
     public void pickColor(String color, JPanel colorbox){
         switch(color){
             case "CHOOSE":
@@ -630,6 +626,20 @@ class Frame extends JFrame implements ActionListener {
            choice = JOptionPane.showOptionDialog(this, name + " WON!", "Game End", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, crown, options, options[0]);
            playerTurn.setText("Game End");
            addToScoreboard(currentPlayer);
+           if (choice == 1) {
+            switchPanels(scoreboardPanel);
+            names.clear();
+            scores.clear();
+            
+            readInName(file, names);
+            readInScores(file, scores);
+            reorderFile(file, scores, names);
+
+            for (int r = 0; r < names.size(); r++) {
+                score[r][1].setText(names.get(r));
+                score[r][2].setText("" + scores.get(r));
+            }
+            } 
         }
     }
     public static boolean isTie(int[][] array, int key) {
@@ -679,7 +689,6 @@ class Frame extends JFrame implements ActionListener {
             tie();
             currentPlayer = 2;
             playerTurn.setText(p2Name+ "\'s Turn");
-            System.out.println(currentPlayer);
         } else if (currentPlayer == 2) { 
             grid[BottomDrop(backend, columnChosen)+1][columnChosen].setBackground(player2Color);
             backend[BottomDrop(backend, columnChosen)][columnChosen] = 2;
@@ -687,7 +696,6 @@ class Frame extends JFrame implements ActionListener {
             winner(p2Name);
             currentPlayer = 1; 
             playerTurn.setText(p1Name+ "\'s Turn");
-            System.out.println(currentPlayer);
         }
     }
     
