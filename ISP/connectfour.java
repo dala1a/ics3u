@@ -351,15 +351,12 @@ class Frame extends JFrame implements ActionListener {
 
         //Adding components to scoreboard
             JButton label1 = new JButton("Rank");
-            label1.setEnabled(false);
             labels[0] = label1;
 
             JButton label2 = new JButton("User");
-            label2.setEnabled(false);
             labels[0] = label1;
  
             JButton label3 = new JButton("Game(s) Won");
-            label3.setEnabled(false);
             labels[0] = label1;
 
 
