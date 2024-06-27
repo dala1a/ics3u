@@ -9,7 +9,14 @@ public class graphicsDemo {
     JPanel pane = (JPanel) frame.getContentPane();
     pane.add(new GUIHelloWorld());
     frame.setVisible(true);
-
+    int sum = 0 ;
+    int j = -5 ;
+    while ( sum <= 350 )
+    {
+    sum += j ;
+    j += 5 ;
+    }
+    System.out.println(sum + " " + j);
     }
 }
 //Create child of JComponent

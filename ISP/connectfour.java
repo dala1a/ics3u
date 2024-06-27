@@ -37,7 +37,7 @@ class Frame extends JFrame implements ActionListener {
     private JLabel howToTitle, text1, text2, text3, text4;
     private JPanel returnPanel;
     private JButton returnButton1;
-
+    
     //player settings vars
     private JButton returnButton2, playButton;
     private JPanel playerSettings, settingsTitlePanel, settingsLayout, enterName1, enterName2, chooseColor1, chooseColor2, color1, color2, colorbox1, colorbox2, playPanel, playBtnPanel;
